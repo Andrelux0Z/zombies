@@ -10,5 +10,5 @@
         <maven.compiler.release>24</maven.compiler.release>
         <exec.mainClass>com.mycompany.zombietec.ZombieTec</exec.mainClass>
     </properties>
-    <name>Zombiestec</name>
+    <name>ZombieTec</name>
 </project>
