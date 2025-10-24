@@ -3,29 +3,26 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-/**
- *
+
+/*
  * @author sando
  */
-public class Contacto extends Defensa {
 
-    public Contacto(int vida, int damage, int atackSpeed, int coste, int nivelAparicion){
-        super(vida, damage, atackSpeed, coste, nivelAparicion,1);
-        
+public class Muro extends Defensa {
+
+    public Muro(int vida, int coste, int nivelAparicion) {
+        super(vida,0,0, coste, nivelAparicion,0);
     }
 
+    @Override
+    public void atacar(Zombies objetivo) {}
+    
     
 
 
 
 
 
-    
-    
-    
-    
-    
-    
     
     
     

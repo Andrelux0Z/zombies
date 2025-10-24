@@ -8,5 +8,19 @@
  * @author sando
  */
 public class Impacto extends Contacto{
+
+    public Impacto(int vida, int damage, int atackSpeed, int coste, int nivelAparicion) {
+        super(vida, damage, atackSpeed, coste, nivelAparicion);
+    }
+
+    @Override
+    public void atacar(Zombies objetivo) {
+        super.atacar(objetivo);
+        autodestruccion();
+    }
     
+    public void autodestruccion(){
+        
+        
+    }
 }

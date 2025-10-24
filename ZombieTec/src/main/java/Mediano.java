@@ -9,4 +9,8 @@
  */
 public class Mediano extends Defensa {
     
+    public Mediano(int vida, int damage, int atackSpeed, int coste, int nivelAparicion){
+        super(vida, damage, atackSpeed, coste, nivelAparicion,5);
+        
+    }
 }

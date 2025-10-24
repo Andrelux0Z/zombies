@@ -7,6 +7,7 @@
  *
  * @author sando
  */
-public class MedianoMultiple extends Mediano{
+public class MedianoMultiple extends Mediano implements IcantObjetivos{
+    
     
 }

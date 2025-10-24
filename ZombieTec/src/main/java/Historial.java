@@ -10,7 +10,7 @@
 public class Historial {
     private int ataqueRecibido;
     private int ataqueDado;
-    private int vidaInicial;
+    private final int vidaInicial;
     private int VidaFinal;
 
     public Historial(int ataqueRecibido, int ataqueDado, int vidaInicial, int VidaFinal) {
