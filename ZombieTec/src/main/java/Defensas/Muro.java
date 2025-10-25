@@ -1,5 +1,6 @@
 package Defensas;
 
+import Otros.Elemento;
 import Zombies.Zombies;
 
 /*
@@ -18,7 +19,9 @@ public class Muro extends Defensa {
     }
 
     @Override
-    public void atacar(Zombies objetivo) {
+    public void atacar(Elemento objetivo) {
     }
+
+    
 
 }

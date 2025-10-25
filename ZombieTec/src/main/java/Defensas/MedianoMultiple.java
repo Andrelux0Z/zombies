@@ -10,9 +10,11 @@ package Defensas;
  * @author sando
  */
 public class MedianoMultiple extends Mediano {
-
-    public MedianoMultiple(int vida, int damage, int atackSpeed, int coste, int nivelAparicion) {
+    int cantObjetivos;
+    
+    public MedianoMultiple(int vida, int damage, int atackSpeed, int coste, int nivelAparicion,int cantObjetivos) {
         super(vida, damage, atackSpeed, coste, nivelAparicion);
+        this.cantObjetivos = cantObjetivos;
     }
 
 }

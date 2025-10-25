@@ -1,6 +1,6 @@
 package Defensas;
 
-import Zombies.Zombies;
+import Otros.*;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -18,12 +18,15 @@ public class Impacto extends Contacto {
     }
 
     @Override
-    public void atacar(Zombies objetivo) {
+    public void atacar(Elemento objetivo) {
         super.atacar(objetivo);
         autodestruccion();
     }
 
-    public void autodestruccion() {
 
+
+    public void autodestruccion() {
+        this.getReporte().setVidaFinal(0); //Reporte
+        this.setVida(0);                   //Atributo
     }
 }

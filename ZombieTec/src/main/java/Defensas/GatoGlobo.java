@@ -4,6 +4,6 @@ package Defensas;
 public class GatoGlobo extends Volador {
 
     public GatoGlobo() {
-        super(70, 25, 3, 150, 5); // vida, damage, atackSpeed, coste, nivelAparicion
+        super(70, 25, 3, 150, 5,3); // vida, damage, atackSpeed, coste, nivelAparicion
     }
 }
