@@ -1,3 +1,9 @@
+package Defensas;
+
+import Zombies.Zombies;
+import Zombies.Historial;
+import utils.Sprite;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -11,76 +17,70 @@ public abstract class Defensa {
     private int vida;
     private int damage;
     private int atackSpeed;
-    
+
     private int nivelAparicion;
     private int rango;
     private String identificador;
     private int coste;
-    
+
     private int ubicacion;
     private Historial reporte;
-    
-    
-    public Defensa(int vida,int coste,int nivelAparicion) {
+    protected Sprite sprite;
+
+    public Defensa(int vida, int coste, int nivelAparicion) {
         this.vida = vida;
         this.coste = coste;
-        this.nivelAparicion = nivelAparicion;    
+        this.nivelAparicion = nivelAparicion;
     }
-        
+
     public Defensa(int vida, int damage, int atackSpeed, int coste, int nivelAparicion, int rango) {
         this.vida = vida;
         this.damage = damage;
         this.atackSpeed = atackSpeed;
         this.coste = coste;
         this.nivelAparicion = nivelAparicion;
-        this.rango = rango; 
+        this.rango = rango;
     }
 
+    public void atacar(Zombies objetivo) {
 
-    
-
-    
-    public void atacar(Zombies objetivo){
-        
-        if(damage > objetivo.getVida())
+        if (damage > objetivo.getVida())
             reporte.setAtaqueDado(vida);
         else
             reporte.setAtaqueDado(damage);
-        
-        objetivo.recibirDaño(damage);     
+
+        objetivo.recibirDaño(damage);
     }
-    
-    public void recibirDaño(int damage,Zombies atacante){
-        
-        if(damage > vida){
+
+    public void recibirDaño(int damage, Zombies atacante) {
+
+        if (damage > vida) {
             this.reporte.setAtaqueRecibido(this.vida);
             this.reporte.setVidaFinal(0);
             this.vida = 0;
-            //actualizarReporte(Zombies atacante,vida)
-        }
-        else{
+            // actualizarReporte(Zombies atacante,vida)
+        } else {
             this.reporte.setAtaqueRecibido(damage);
             this.reporte.setVidaFinal(this.vida);
             this.vida -= damage;
-            //actualizarReporte(Zombies atacante,damage);
+            // actualizarReporte(Zombies atacante,damage);
         }
     }
-    
-    public void generarID(String iniciales){
-        //TODO generar numeros
-    }
-    
-    public void subirNivel(){}
-    
-    public void actualizarReporte(Zombies atacante,int damage){
-        //TODO no entiendo como putas almacenar al atacante y luego como imprimirlo
-    
+
+    public void generarID(String iniciales) {
+        // TODO generar numeros
     }
 
-    
-    
-    //GETTER Y SETTER:
-    
+    public void subirNivel() {
+    }
+
+    public void actualizarReporte(Zombies atacante, int damage) {
+        // TODO no entiendo como putas almacenar al atacante y luego como imprimirlo
+
+    }
+
+    // GETTER Y SETTER:
+
     public int getVida() {
         return vida;
     }
@@ -136,8 +136,13 @@ public abstract class Defensa {
     public void setUbicacion(int ubicacion) {
         this.ubicacion = ubicacion;
     }
-    
-    
-    
-    
+
+    public Sprite getSprite() {
+        return sprite;
+    }
+
+    public void setSprite(Sprite sprite) {
+        this.sprite = sprite;
+    }
+
 }

@@ -1,3 +1,7 @@
+package Defensas;
+
+import Zombies.Zombies;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -7,7 +11,7 @@
  *
  * @author sando
  */
-public class Impacto extends Contacto{
+public class Impacto extends Contacto {
 
     public Impacto(int vida, int damage, int atackSpeed, int coste, int nivelAparicion) {
         super(vida, damage, atackSpeed, coste, nivelAparicion);
@@ -18,9 +22,8 @@ public class Impacto extends Contacto{
         super.atacar(objetivo);
         autodestruccion();
     }
-    
-    public void autodestruccion(){
-        
-        
+
+    public void autodestruccion() {
+
     }
 }

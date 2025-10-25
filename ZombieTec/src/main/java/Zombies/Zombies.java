@@ -1,6 +1,7 @@
+package Zombies;
 
-import java.util.HashSet;
-import java.util.Set;
+import Defensas.Defensa;
+import utils.Sprite;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -19,8 +20,9 @@ public abstract class Zombies {
     private int nivelAparicion;
     private final int rango;
     private Historial reporte;
-    private final String identificador;
+    private String identificador;
     private int ubicacion;
+    protected Sprite sprite; // Sprite visual del zombie
 
     public Zombies(int vida, int damage, int atackSpeed, int coste, int nivelAparicion, int rango) {
         this.vida = vida;
@@ -30,43 +32,39 @@ public abstract class Zombies {
         this.nivelAparicion = nivelAparicion;
         this.rango = rango;
     }
-    
-    
-    
-    
-    public void atacar(Defensa objetivo){
-        
-        if(damage > objetivo.getVida())
+
+    public void atacar(Defensa objetivo) {
+
+        if (damage > objetivo.getVida())
             reporte.setAtaqueDado(vida);
         else
             reporte.setAtaqueDado(damage);
-        
-        objetivo.recibirDaño(damage);     
+
+        objetivo.recibirDaño(damage, this);
     }
-    
-    
-    public void recibirDaño(int damage){
-        
-        if(damage > vida){
+
+    public void recibirDaño(int damage) {
+
+        if (damage > vida) {
             this.reporte.setAtaqueRecibido(this.vida);
             this.reporte.setVidaFinal(0);
             this.vida = 0;
-        }
-        else{
+        } else {
             this.reporte.setAtaqueRecibido(damage);
             this.reporte.setVidaFinal(this.vida);
             this.vida -= damage;
         }
     }
-    
-    public void actualizarReporte(){}
-    
-    public void aumentarCapacidadCoste() {}
-    
-    public void moverseHaciaArbol(){}
-    
 
-    
+    public void actualizarReporte() {
+    }
+
+    public void aumentarCapacidadCoste() {
+    }
+
+    public void moverseHaciaArbol() {
+    }
+
     public int getVida() {
         return vida;
     }
@@ -115,10 +113,12 @@ public abstract class Zombies {
         return damage;
     }
 
-    
-    
-    
-    
-    
-    
+    public Sprite getSprite() {
+        return sprite;
+    }
+
+    public void setSprite(Sprite sprite) {
+        this.sprite = sprite;
+    }
+
 }
