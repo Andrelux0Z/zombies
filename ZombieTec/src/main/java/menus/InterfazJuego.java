@@ -5,29 +5,11 @@
 package menus;
 
 import Tablero.Tablero;
-import Tablero.Casilla;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import javax.swing.JPanel;
-// Imports para el sistema de Drag and Drop
-import java.awt.FlowLayout;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.dnd.*;
-import java.io.File;
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import utils.Sprite;
 
 /**
  *
@@ -40,15 +22,13 @@ public class InterfazJuego extends javax.swing.JFrame {
 
     // Variables para el tablero de juego
     private static final int MAX_CELL_SIZE = 25;
-    private int boardRows = 25;
-    private int boardCols = 25;
+    private int filasTablero = 25;
+    private int columnasTablero = 25;
     private BoardView boardView;
 
-    // ============================================
-    // VARIABLES PARA EL SISTEMA DE DEFENSAS
-    // ============================================
-    private String defensaSeleccionada = null; // Nombre de la defensa que se está arrastrando
-    private Image imagenDefensaSeleccionada = null; // Imagen de la defensa seleccionada
+    // Controladores
+    private PanelDefensas panelDefensas;
+    private ControladorDragDrop controladorDragDrop;
 
     /**
      * Creates new form InterfazJuego
@@ -66,7 +46,8 @@ public class InterfazJuego extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         PanelJuego = new javax.swing.JPanel();
@@ -80,59 +61,57 @@ public class InterfazJuego extends javax.swing.JFrame {
         javax.swing.GroupLayout PanelJuegoLayout = new javax.swing.GroupLayout(PanelJuego);
         PanelJuego.setLayout(PanelJuegoLayout);
         PanelJuegoLayout.setHorizontalGroup(
-            PanelJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 768, Short.MAX_VALUE)
-        );
+                PanelJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 768, Short.MAX_VALUE));
         PanelJuegoLayout.setVerticalGroup(
-            PanelJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 562, Short.MAX_VALUE)
-        );
+                PanelJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 562, Short.MAX_VALUE));
 
         PanelInformacion.setBackground(new java.awt.Color(204, 255, 255));
 
         javax.swing.GroupLayout PanelInformacionLayout = new javax.swing.GroupLayout(PanelInformacion);
         PanelInformacion.setLayout(PanelInformacionLayout);
         PanelInformacionLayout.setHorizontalGroup(
-            PanelInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 283, Short.MAX_VALUE)
-        );
+                PanelInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 283, Short.MAX_VALUE));
         PanelInformacionLayout.setVerticalGroup(
-            PanelInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+                PanelInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 0, Short.MAX_VALUE));
 
         PanelDragAndDrop.setBackground(new java.awt.Color(204, 255, 204));
 
         javax.swing.GroupLayout PanelDragAndDropLayout = new javax.swing.GroupLayout(PanelDragAndDrop);
         PanelDragAndDrop.setLayout(PanelDragAndDropLayout);
         PanelDragAndDropLayout.setHorizontalGroup(
-            PanelDragAndDropLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+                PanelDragAndDropLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 0, Short.MAX_VALUE));
         PanelDragAndDropLayout.setVerticalGroup(
-            PanelDragAndDropLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 134, Short.MAX_VALUE)
-        );
+                PanelDragAndDropLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 134, Short.MAX_VALUE));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(PanelJuego, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(PanelDragAndDrop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PanelInformacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(PanelJuego, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(PanelDragAndDrop, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(PanelInformacion, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(PanelJuego, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PanelDragAndDrop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(PanelInformacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addComponent(PanelJuego, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(PanelDragAndDrop, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(PanelInformacion, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -190,7 +169,6 @@ public class InterfazJuego extends javax.swing.JFrame {
 
         // Recalcular y centrar al cambiar el tamaño del panel
         PanelJuego.addComponentListener(new ComponentAdapter() {
-            @Override
             public void componentResized(ComponentEvent e) {
                 ensureBoardCreated();
                 updateBoardSizing();
@@ -215,7 +193,7 @@ public class InterfazJuego extends javax.swing.JFrame {
         if (ancho <= 0 || alto <= 0)
             return;
 
-        Tablero modelo = new Tablero(boardRows, boardCols);
+        Tablero modelo = new Tablero(filasTablero, columnasTablero);
         // Tamaño provisional; se ajustará en updateBoardSizing()
         boardView = new BoardView(modelo, 1);
 
@@ -227,8 +205,13 @@ public class InterfazJuego extends javax.swing.JFrame {
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.fill = GridBagConstraints.NONE;
         PanelJuego.add(boardView, gbc);
-        // Registrar destino de drop cuando el tablero ya existe
-        configurarDropEnTablero();
+
+        // Inicializar el controlador DnD ahora que el boardView existe
+        if (controladorDragDrop == null) {
+            controladorDragDrop = new ControladorDragDrop(boardView, filasTablero, columnasTablero, this);
+            controladorDragDrop.configurarDropEnTablero();
+        }
+
         PanelJuego.revalidate();
     }
 
@@ -244,435 +227,42 @@ public class InterfazJuego extends javax.swing.JFrame {
         if (ancho <= 0 || alto <= 0)
             return;
 
-        int cellW = ancho / boardCols;
-        int cellH = alto / boardRows;
-        int cellSize = Math.max(1, Math.min(MAX_CELL_SIZE, Math.min(cellW, cellH)));
+        int anchoCelda = ancho / columnasTablero;
+        int altoCelda = alto / filasTablero;
+        int tamCelda = Math.max(1, Math.min(MAX_CELL_SIZE, Math.min(anchoCelda, altoCelda)));
 
-        boardView.setCellSize(cellSize);
+        boardView.setTamCelda(tamCelda);
         PanelJuego.revalidate();
         PanelJuego.repaint();
     }
 
-    /**
-     * Permite configurar dinámicamente las dimensiones del tablero y reajustar la
-     * vista.
-     * 
-     * @param rows Número de filas del tablero
-     * @param cols Número de columnas del tablero
-     */
+    /* Ajusta dinámicamente las dimensiones del tablero y actualiza la vista. */
     public void setBoardDimensions(int rows, int cols) {
         if (rows <= 0 || cols <= 0)
             throw new IllegalArgumentException("Dimensiones invalidas");
-        this.boardRows = rows;
-        this.boardCols = cols;
+        this.filasTablero = rows;
+        this.columnasTablero = cols;
         if (boardView != null) {
             boardView.setModel(new Tablero(rows, cols));
+        }
+        if (controladorDragDrop != null) {
+            controladorDragDrop.setDimensiones(rows, cols);
         }
         updateBoardSizing();
     }
 
-    /**
-     * Componente de vista para dibujar el tablero basado en el modelo Tablero.
-     * Renderiza una cuadrícula de celdas blancas con bordes grises.
-     */
-    private static class BoardView extends JPanel {
-        private Tablero tablero;
-        private int cellSize;
-        // Estructura para almacenar las imágenes de las defensas en cada celda
-        private Image[][] defensasVisuales;
-        // Estructura alternativa basada en Sprite para dibujar defensas (pedido del
-        // usuario)
-        private Sprite[][] spritesDefensas;
-
-        BoardView(Tablero tablero, int cellSize) {
-            this.tablero = tablero;
-            this.cellSize = cellSize;
-            // Inicializar arreglos de defensas
-            this.defensasVisuales = new Image[tablero.getFilas()][tablero.getColumnas()];
-            this.spritesDefensas = new Sprite[tablero.getFilas()][tablero.getColumnas()];
-            updatePreferredSize();
-            setBackground(Color.WHITE);
-        }
-
-        void setModel(Tablero nuevo) {
-            this.tablero = nuevo;
-            // Reinicializar los arreglos de defensas con el nuevo tamaño
-            this.defensasVisuales = new Image[nuevo.getFilas()][nuevo.getColumnas()];
-            this.spritesDefensas = new Sprite[nuevo.getFilas()][nuevo.getColumnas()];
-            updatePreferredSize();
-            repaint();
-        }
-
-        /**
-         * Agrega una imagen de defensa a una celda específica.
-         * 
-         * @param fila    Fila de la celda
-         * @param columna Columna de la celda
-         * @param imagen  Imagen de la defensa
-         */
-        void agregarDefensaVisual(int fila, int columna, Image imagen) {
-            if (fila >= 0 && fila < tablero.getFilas() && columna >= 0 && columna < tablero.getColumnas()) {
-                defensasVisuales[fila][columna] = imagen;
-            }
-        }
-
-        /** Devuelve el tamaño actual de celda (para cálculos externos). */
-        int getCellSize() {
-            return cellSize;
-        }
-
-        /** Indica si ya existe un sprite en la celda dada. */
-        boolean haySpriteEn(int fila, int columna) {
-            return spritesDefensas != null
-                    && fila >= 0 && fila < tablero.getFilas()
-                    && columna >= 0 && columna < tablero.getColumnas()
-                    && spritesDefensas[fila][columna] != null;
-        }
-
-        /** Agrega un sprite de defensa en una celda específica. */
-        void agregarSpriteDefensa(int fila, int columna, Sprite sprite) {
-            if (fila >= 0 && fila < tablero.getFilas() && columna >= 0 && columna < tablero.getColumnas()) {
-                spritesDefensas[fila][columna] = sprite;
-            }
-        }
-
-        /** Ajusta posición y tamaño de todos los sprites a la cuadrícula actual. */
-        void sincronizarSpritesConCeldas() {
-            if (spritesDefensas == null)
-                return;
-            for (int i = 0; i < tablero.getFilas(); i++) {
-                for (int j = 0; j < tablero.getColumnas(); j++) {
-                    Sprite s = spritesDefensas[i][j];
-                    if (s != null) {
-                        int x = j * cellSize;
-                        int y = i * cellSize;
-                        s.setPosicion(x, y);
-                        s.setTamano(cellSize, cellSize);
-                    }
-                }
-            }
-        }
-
-        void setCellSize(int newSize) {
-            if (newSize <= 0)
-                newSize = 1;
-            this.cellSize = newSize;
-            updatePreferredSize();
-            // Al cambiar el tamaño de celda, sincronizar sprites
-            sincronizarSpritesConCeldas();
-            revalidate();
-            repaint();
-        }
-
-        private void updatePreferredSize() {
-            int w = tablero.getColumnas() * cellSize;
-            int h = tablero.getFilas() * cellSize;
-            setPreferredSize(new Dimension(w, h));
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-
-            int filas = tablero.getFilas();
-            int columnas = tablero.getColumnas();
-
-            // Limpiar fondo a blanco
-            g.setColor(Color.WHITE);
-            g.fillRect(0, 0, getWidth(), getHeight());
-
-            // Dibujar celdas blancas con bordes grises
-            for (int i = 0; i < filas; i++) {
-                for (int j = 0; j < columnas; j++) {
-                    int x = j * cellSize;
-                    int y = i * cellSize;
-
-                    // Relleno blanco
-                    g.setColor(Color.WHITE);
-                    g.fillRect(x, y, cellSize, cellSize);
-
-                    // Borde gris claro
-                    g.setColor(new Color(200, 200, 200));
-                    g.drawRect(x, y, cellSize, cellSize);
-
-                    // Dibujar la defensa si existe en esta celda (vía Image)
-                    if (defensasVisuales[i][j] != null) {
-                        // Dibujar la imagen de la defensa escalada al tamaño de la celda
-                        g.drawImage(defensasVisuales[i][j], x, y, cellSize, cellSize, this);
-                    }
-
-                    // Dibujar la defensa si existe como Sprite
-                    if (spritesDefensas != null && spritesDefensas[i][j] != null) {
-                        spritesDefensas[i][j].dibujar((Graphics2D) g);
-                    }
-                }
-            }
-
-            // Dibujar la rejilla por encima para que las líneas no queden tapadas por las
-            // imágenes
-            g.setColor(new Color(200, 200, 200));
-            for (int i = 0; i < filas; i++) {
-                for (int j = 0; j < columnas; j++) {
-                    int x = j * cellSize;
-                    int y = i * cellSize;
-                    g.drawRect(x, y, cellSize, cellSize);
-                }
-            }
-        }
-    }
-
-    // ============================================
-    // SISTEMA DE DEFENSAS - DRAG AND DROP
-    // ============================================
-    //
-    // Este sistema permite arrastrar defensas desde el panel derecho (jPanel2)
-    // y soltarlas en el tablero de juego (jPanel1) para colocarlas.
-    //
-    // COMPONENTES PRINCIPALES:
-    // 1. configurarPanelDefensas() - Crea los botones visuales de las defensas
-    // 2. crearLabelDefensa() - Crea cada botón de defensa con su imagen
-    // 3. configurarDragParaDefensa() - Permite arrastrar la defensa
-    // 4. configurarDropEnTablero() - Permite soltar la defensa en el tablero
-    // 5. colocarDefensaEnTablero() - Coloca la defensa en una celda específica
-    //
-    // FLUJO DE FUNCIONAMIENTO:
-    // Usuario hace clic en defensa → Arrastra al tablero → Suelta en una celda
-    // → La defensa se dibuja en esa celda y se guarda en el modelo
-    //
-
-    /**
-     * Configura el panel de defensas (jPanel2) con las imágenes de las defensas
-     * disponibles.
-     * Cada defensa se puede arrastrar al tablero de juego.
+    /*
+     * Configura el panel de defensas con las imágenes de las defensas disponibles
      */
     private void configurarPanelDefensas() {
-        // Configurar el layout del panel de defensas
-        PanelInformacion.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
-
-        // Lista de defensas disponibles con sus imágenes
-        String[] defensas = { "bomba", "gatoglobo", "lanzallamas", "metralleta", "Torreta" };
-
-        // Crear un botón visual para cada defensa
-        for (String nombreDefensa : defensas) {
-            JLabel labelDefensa = crearLabelDefensa(nombreDefensa);
-            if (labelDefensa != null) {
-                PanelInformacion.add(labelDefensa);
-            }
-        }
-
-        // Configurar el tablero para recibir las defensas (DROP)
-        configurarDropEnTablero();
-
-        // Además, usar el panel inferior (jPanel3) como barra de defensas
-        // Movemos cualquier componente creado en jPanel2 hacia jPanel3 para respetar la
-        // petición
-        // Nota: Solo añadimos código; no removemos el anterior. Esto reubica
-        // visualmente las defensas.
-        PanelDragAndDrop.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
-        java.awt.Component[] comps = PanelInformacion.getComponents();
-        for (java.awt.Component c : comps) {
-            PanelDragAndDrop.add(c);
-        }
-        PanelInformacion.removeAll();
-        PanelDragAndDrop.revalidate();
-        PanelDragAndDrop.repaint();
-    }
-
-    /**
-     * Crea un JLabel con la imagen de una defensa.
-     * Este JLabel se puede arrastrar (DRAG).
-     * 
-     * @param nombreDefensa Nombre del archivo de imagen (sin extensión .png)
-     * @return JLabel con la imagen o null si hay error
-     */
-    private JLabel crearLabelDefensa(String nombreDefensa) {
-        try {
-            // Construir la ruta al archivo de imagen
-            String rutaImagen = "src/main/java/Resourses/" + nombreDefensa + ".png";
-            File archivoImagen = new File(rutaImagen);
-
-            // Cargar la imagen
-            Image imagen = ImageIO.read(archivoImagen);
-
-            // Redimensionar la imagen a un tamaño manejable (60x60 píxeles)
-            Image imagenEscalada = imagen.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
-
-            // Crear el JLabel con la imagen
-            JLabel label = new JLabel(new ImageIcon(imagenEscalada));
-            label.setToolTipText(nombreDefensa); // Mostrar nombre al pasar el mouse
-            label.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-
-            // Configurar el DRAG (arrastre) para este label
-            configurarDragParaDefensa(label, nombreDefensa, imagen);
-
-            return label;
-
-        } catch (Exception e) {
-            // Si hay error al cargar la imagen, mostrar mensaje
-            System.err.println("Error al cargar imagen de defensa: " + nombreDefensa);
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
-     * Configura el comportamiento de arrastre (DRAG) para una defensa.
-     * 
-     * @param label         JLabel que contiene la imagen de la defensa
-     * @param nombreDefensa Nombre de la defensa
-     * @param imagen        Imagen original de la defensa
-     */
-    private void configurarDragParaDefensa(JLabel label, String nombreDefensa, Image imagen) {
-        // Crear el DragSource (fuente de arrastre)
-        DragSource dragSource = DragSource.getDefaultDragSource();
-
-        // Configurar el listener de arrastre
-        DragGestureListener dragGestureListener = new DragGestureListener() {
-            @Override
-            public void dragGestureRecognized(DragGestureEvent dge) {
-                // Cuando se inicia el arrastre, guardar la defensa seleccionada
-                defensaSeleccionada = nombreDefensa;
-                imagenDefensaSeleccionada = imagen;
-
-                // Crear el objeto transferible (lo que se está arrastrando)
-                Transferable transferable = new Transferable() {
-                    @Override
-                    public DataFlavor[] getTransferDataFlavors() {
-                        return new DataFlavor[] { DataFlavor.stringFlavor };
-                    }
-
-                    @Override
-                    public boolean isDataFlavorSupported(DataFlavor flavor) {
-                        return flavor.equals(DataFlavor.stringFlavor);
-                    }
-
-                    @Override
-                    public Object getTransferData(DataFlavor flavor) {
-                        return nombreDefensa;
-                    }
-                };
-
-                // Iniciar el arrastre
-                dge.startDrag(DragSource.DefaultMoveDrop, transferable);
-            }
-        };
-
-        // Registrar el listener de arrastre
-        dragSource.createDefaultDragGestureRecognizer(label, DnDConstants.ACTION_COPY, dragGestureListener);
-    }
-
-    /**
-     * Configura el tablero (BoardView) para que pueda recibir defensas (DROP).
-     */
-    @SuppressWarnings("unused")
-    private void configurarDropEnTablero() {
-        // Crear el DropTarget (destino de arrastre)
-        // El dropTarget se registra automáticamente con el componente, por eso no
-        // necesitamos guardarlo
-        DropTarget dropTarget = new DropTarget(boardView, new DropTargetListener() {
-
-            @Override
-            public void dragEnter(DropTargetDragEvent dtde) {
-                // Se puede usar para efectos visuales al entrar
-            }
-
-            @Override
-            public void dragOver(DropTargetDragEvent dtde) {
-                // Se puede usar para mostrar dónde se va a soltar
-            }
-
-            @Override
-            public void dropActionChanged(DropTargetDragEvent dtde) {
-                // Se puede usar para cambiar el tipo de acción
-            }
-
-            @Override
-            public void dragExit(DropTargetEvent dte) {
-                // Se puede usar para efectos visuales al salir
-            }
-
-            @Override
-            public void drop(DropTargetDropEvent dtde) {
-                // Cuando se suelta la defensa en el tablero
-                try {
-                    // Aceptar el drop
-                    dtde.acceptDrop(DnDConstants.ACTION_COPY);
-
-                    // Obtener la posición donde se soltó
-                    Point puntoSoltado = dtde.getLocation();
-
-                    // Calcular en qué celda del tablero se soltó
-                    int cellSize = boardView.getCellSize();
-                    int columna = puntoSoltado.x / cellSize;
-                    int fila = puntoSoltado.y / cellSize;
-
-                    // Verificar que la posición sea válida
-                    if (fila >= 0 && fila < boardRows && columna >= 0 && columna < boardCols) {
-                        // Colocar la defensa en el tablero
-                        colocarDefensaEnTablero(fila, columna, defensaSeleccionada, imagenDefensaSeleccionada);
-
-                        // Mensaje de confirmación
-                        System.out.println("Defensa '" + defensaSeleccionada + "' colocada en fila " + fila
-                                + ", columna " + columna);
-                    }
-
-                    // Completar el drop
-                    dtde.dropComplete(true);
-
-                } catch (Exception e) {
-                    System.err.println("Error al soltar defensa: " + e.getMessage());
-                    e.printStackTrace();
-                    dtde.dropComplete(false);
-                }
+        // Inicializar panel de defensas
+        panelDefensas = new PanelDefensas((nombre, imagen) -> {
+            if (controladorDragDrop != null) {
+                controladorDragDrop.setDefensaSeleccionada(nombre, imagen);
             }
         });
-    }
 
-    /**
-     * Coloca una defensa en el tablero de juego.
-     * 
-     * @param fila          Fila donde colocar la defensa
-     * @param columna       Columna donde colocar la defensa
-     * @param nombreDefensa Nombre de la defensa
-     * @param imagen        Imagen de la defensa
-     */
-    private void colocarDefensaEnTablero(int fila, int columna, String nombreDefensa, Image imagen) {
-        // Validar ocupación: no colocar si ya hay algo en la casilla (modelo) o un
-        // sprite
-        Casilla casilla = boardView.tablero.getCasilla(fila, columna);
-        boolean ocupadaModelo = (casilla != null) && (casilla.getContenido() != null);
-        boolean ocupadaSprite = boardView.haySpriteEn(fila, columna);
-        if (ocupadaModelo || ocupadaSprite) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                    "Ya hay una defensa en esa casilla.",
-                    "Casilla ocupada",
-                    javax.swing.JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // Guardar la información en el modelo del tablero
-        casilla.setContenido(nombreDefensa); // Guardar el nombre de la defensa en la casilla
-
-        // Crear y agregar el Sprite de la defensa usando la ruta y tamaño/posición
-        // actuales
-        try {
-            String rutaImagen = "src/main/java/Resourses/" + nombreDefensa + ".png";
-            int cs = boardView.getCellSize();
-            int x = columna * cs;
-            int y = fila * cs;
-            Sprite sprite = new Sprite(rutaImagen, x, y, cs, cs);
-            boardView.agregarSpriteDefensa(fila, columna, sprite);
-            boardView.sincronizarSpritesConCeldas();
-        } catch (Exception ex) {
-            // En caso de problema con la imagen, seguimos dejando el nombre en el modelo
-            System.err.println("No se pudo crear el Sprite para '" + nombreDefensa + "': " + ex.getMessage());
-        }
-
-        // Opcional: mantener también la imagen cruda para compatibilidad (no removemos
-        // código existente)
-        boardView.agregarDefensaVisual(fila, columna, imagen);
-
-        // Redibujar el tablero
-        boardView.repaint();
+        // Configurar defensas en el panel inferior
+        panelDefensas.configurar(PanelDragAndDrop);
     }
 }
