@@ -20,9 +20,6 @@ public abstract class Defensa extends Elemento {
         super(vida, damage, atackSpeed, coste, nivelAparicion, rango);
     }
 
-    public void subirNivel() { //Posiblemente se le haga OVERRIDE
-        
-        
-    }
+
     
 }

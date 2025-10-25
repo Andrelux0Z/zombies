@@ -22,6 +22,7 @@ public abstract class Elemento {
     private int nivelAparicion;
     private int rango;
     private String identificador;
+    private boolean isVolador = false;
     
     private Historial reportes;
     private int ubicacion;
@@ -86,10 +87,19 @@ public abstract class Elemento {
     }
 
     public void aumentarCapacidadCoste() { //TODO: Crear aumento de los niveles
-        
+        //Aumentar tambien la capacidad maxima de "elixir"
         
     }
 
+    public void subirNivel(){
+        int aumento = (int)(Math.random() * 20) + 5;
+        double aumentoPorcentual = (1+(aumento/100));
+        
+        this.setDamage((int)(this.damage*aumentoPorcentual)); 
+        this.setVida((int)(this.vida*aumentoPorcentual));
+        
+    }
+    
     //Funcion que retorna un bool si el objetivo esta muerto o no, tambien modifica los valores del objeto
     public boolean isDead(){
         if(this.vida <= 0){
@@ -161,7 +171,7 @@ public abstract class Elemento {
         this.ubicacion = ubicacion;
     }
 
-    public int getDaño() {
+    public int getDamage() {
         return damage;
     }
     
@@ -184,5 +194,14 @@ public abstract class Elemento {
     public void setTipo(Elemento tipo) {
         this.tipo = tipo;
     }
+
+    public boolean isIsVolador() {
+        return isVolador;
+    }
+
+    public void setIsVolador(boolean isVolador) {
+        this.isVolador = isVolador;
+    }
+    
     
 }
