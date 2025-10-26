@@ -27,6 +27,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -34,6 +35,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         Titulojuego = new javax.swing.JLabel();
         ButtonJugar = new javax.swing.JButton();
         ButtonSalir = new javax.swing.JButton();
+        ButtonEditor = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -49,9 +51,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         });
 
         ButtonSalir.setText("Salir");
-        ButtonSalir.addActionListener(new java.awt.event.ActionListener() {
+
+        ButtonEditor.setText("Editor");
+        ButtonEditor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonSalirActionPerformed(evt);
+                ButtonEditorActionPerformed(evt);
             }
         });
 
@@ -69,7 +73,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
                                                 .addGroup(jPanel1Layout
                                                         .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addComponent(ButtonSalir)
-                                                        .addComponent(ButtonJugar))))
+                                                        .addComponent(ButtonJugar)
+                                                        .addComponent(ButtonEditor))))
                                 .addContainerGap(215, Short.MAX_VALUE)));
         jPanel1Layout.setVerticalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -79,9 +84,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77,
                                         Short.MAX_VALUE)
                                 .addComponent(ButtonJugar)
-                                .addGap(18, 18, 18)
+                                .addGap(9, 9, 9)
+                                .addComponent(ButtonEditor)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(ButtonSalir)
-                                .addGap(167, 167, 167)));
+                                .addGap(137, 137, 137)));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -102,6 +109,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void ButtonEditorActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_ButtonEditorActionPerformed
+        // Abrir el Editor de Configuración
+        PanelConfiguraciones.VentanaConfiguracion editor = new PanelConfiguraciones.VentanaConfiguracion();
+        editor.setVisible(true);
+        this.dispose(); // Cerrar el menú principal
+    }// GEN-LAST:event_ButtonEditorActionPerformed
 
     private void ButtonJugarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_ButtonJugarActionPerformed
         // Abrir la ventana de Partidas
@@ -145,6 +159,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ButtonEditor;
     private javax.swing.JButton ButtonJugar;
     private javax.swing.JButton ButtonSalir;
     private javax.swing.JLabel Titulojuego;

@@ -179,7 +179,11 @@ public class Tablero {
         sb.append(String.format("Tablero [%dx%d]\n", filas, columnas));
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
-                sb.append(casillas[i][j].estaVacia() ? "[ ]" : "[X]");
+                if (casillas[i][j].estaVacia()) {
+                    sb.append("[ ]");
+                } else {
+                    sb.append("[X]");
+                }
                 if (j < columnas - 1) {
                     sb.append(" ");
                 }

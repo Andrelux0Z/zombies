@@ -38,7 +38,7 @@ public class PanelDefensas {
 
     /* Crea un JLabel con la imagen de una defensa que se puede arrastrar */
     private JLabel crearLabelDefensa(String nombreDefensa) {
-        String rutaImagen = "src/main/java/Resourses/" + nombreDefensa + ".png";
+        String rutaImagen = resolverRutaDefensa(nombreDefensa);
         Image imagen = new ImageIcon(rutaImagen).getImage();
         Image imagenEscalada = imagen.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
 
@@ -48,6 +48,19 @@ public class PanelDefensas {
 
         configurarDragParaDefensa(label, nombreDefensa, imagen);
         return label;
+    }
+
+    // Resuelve la ruta de imagen para una defensa usando la nueva estructura
+    private String resolverRutaDefensa(String nombreDefensa) {
+        String base = "src/main/java/Resourses/";
+        String nombre;
+        if (nombreDefensa == null) {
+            nombre = "";
+        } else {
+            nombreDefensa = nombreDefensa.trim().toLowerCase();
+            nombre = nombreDefensa;
+        }
+        return base + "defensas/" + nombre + ".png";
     }
 
     /* Configura el arrastre para una defensa */

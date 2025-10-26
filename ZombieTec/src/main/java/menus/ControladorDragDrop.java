@@ -6,6 +6,8 @@ import java.awt.Point;
 import java.awt.dnd.*;
 import javax.swing.JFrame;
 import utils.Sprite;
+import Defensas.*; // Para instanciar las defensas reales
+import javax.swing.ImageIcon;
 
 /*
  * Controlador que maneja la lógica de arrastrar y soltar defensas en el tablero.
@@ -61,7 +63,7 @@ public class ControladorDragDrop {
                     int fila = puntoSoltado.y / tamCelda;
 
                     if (fila >= 0 && fila < filasTablero && columna >= 0 && columna < columnasTablero) {
-                        colocarDefensaEnTablero(fila, columna, defensaSeleccionada, imagenDefensaSeleccionada);
+                        colocarDefensaEnTablero(fila, columna, defensaSeleccionada);
                         System.out.println("Defensa '" + defensaSeleccionada + "' colocada en fila " + fila
                                 + ", columna " + columna);
                     }
@@ -78,12 +80,11 @@ public class ControladorDragDrop {
     }
 
     /* Coloca una defensa en el tablero en la fila y columna indicadas */
-    private void colocarDefensaEnTablero(int fila, int columna, String nombreDefensa, Image imagen) {
+    private void colocarDefensaEnTablero(int fila, int columna, String nombreDefensa) {
         Casilla casilla = boardView.tablero.getCasilla(fila, columna);
-        boolean ocupadaModelo = (casilla != null) && (casilla.getContenido() != null);
-        boolean ocupadaSprite = boardView.haySpriteEn(fila, columna);
+        boolean ocupada = (casilla != null) && (casilla.getContenido() != null);
 
-        if (ocupadaModelo || ocupadaSprite) {
+        if (ocupada) {
             javax.swing.JOptionPane.showMessageDialog(ventanaPadre,
                     "Ya hay una defensa en esa casilla.",
                     "Casilla ocupada",
@@ -91,16 +92,47 @@ public class ControladorDragDrop {
             return;
         }
 
-        casilla.setContenido(nombreDefensa);
+        // 1) Crear la instancia real de la defensa según el nombre arrastrado
+        Defensa instancia = crearDefensa(nombreDefensa);
+        if (instancia == null) {
+            javax.swing.JOptionPane.showMessageDialog(ventanaPadre,
+                    "Defensa desconocida: " + nombreDefensa,
+                    "Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-        String rutaImagen = "src/main/java/Resourses/" + nombreDefensa + ".png";
+        // 2) Colocar la defensa en el modelo (casilla del tablero)
+        casilla.setContenido(instancia);
+
+        // 3) Crear y asociar el sprite visual a la defensa y a la vista
+        String rutaImagen = instancia.getRutaImagen();
         int tamCelda = boardView.getCellSize();
         int x = columna * tamCelda;
         int y = fila * tamCelda;
         Sprite sprite = new Sprite(rutaImagen, x, y, tamCelda, tamCelda);
-        boardView.agregarSpriteDefensa(fila, columna, sprite);
-        boardView.sincronizarSpritesConCeldas();
-        boardView.agregarDefensaVisual(fila, columna, imagen);
+        instancia.setSprite(sprite); // Sincronizar también con el modelo
         boardView.repaint();
+    }
+
+    // Crea la defensa adecuada según el nombre del ícono arrastrado.
+    private Defensa crearDefensa(String nombre) {
+        if (nombre == null)
+            return null;
+        String key = nombre.trim().toLowerCase();
+        switch (key) {
+            case "bomba":
+                return new Bomba();
+            case "gatoglobo":
+                return new GatoGlobo();
+            case "lanzallamas":
+                return new Lanzallamas();
+            case "metralleta":
+                return new Metralleta();
+            case "torreta": // manejar también el caso con mayúscula inicial desde el panel
+                return new Torreta();
+            default:
+                return null;
+        }
     }
 }

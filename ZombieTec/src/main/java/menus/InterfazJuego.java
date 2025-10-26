@@ -21,10 +21,10 @@ public class InterfazJuego extends javax.swing.JFrame {
             .getLogger(InterfazJuego.class.getName());
 
     // Variables para el tablero de juego
-    private static final int MAX_CELL_SIZE = 25;
     private int filasTablero = 25;
     private int columnasTablero = 25;
     private BoardView boardView;
+    private GameController gameController;
 
     // Controladores
     private PanelDefensas panelDefensas;
@@ -212,6 +212,12 @@ public class InterfazJuego extends javax.swing.JFrame {
             controladorDragDrop.configurarDropEnTablero();
         }
 
+        // Inicializar y arrancar el controlador del juego
+        if (gameController == null) {
+            gameController = new GameController(boardView);
+        }
+        gameController.start();
+
         PanelJuego.revalidate();
     }
 
@@ -229,9 +235,9 @@ public class InterfazJuego extends javax.swing.JFrame {
 
         int anchoCelda = ancho / columnasTablero;
         int altoCelda = alto / filasTablero;
-        int tamCelda = Math.max(1, Math.min(MAX_CELL_SIZE, Math.min(anchoCelda, altoCelda)));
+        int tamCelda = Math.max(1, Math.min(anchoCelda, altoCelda));
 
-        boardView.setTamCelda(tamCelda);
+        boardView.setCellSize(tamCelda);
         PanelJuego.revalidate();
         PanelJuego.repaint();
     }

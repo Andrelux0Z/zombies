@@ -62,6 +62,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="ButtonSalir" min="-2" max="-2" attributes="0"/>
                               <Component id="ButtonJugar" min="-2" max="-2" attributes="0"/>
+                              <Component id="ButtonEditor" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -76,9 +77,11 @@
                   <Component id="Titulojuego" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="77" max="32767" attributes="0"/>
                   <Component id="ButtonJugar" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                  <Component id="ButtonEditor" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="ButtonSalir" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="167" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="137" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -98,6 +101,14 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Salir"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="ButtonEditor">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Editor"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonEditorActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

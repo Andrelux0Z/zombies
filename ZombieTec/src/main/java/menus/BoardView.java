@@ -6,8 +6,14 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import javax.swing.JPanel;
 import utils.Sprite;
+import utils.Proyectil;
+import Zombies.Zombies;
+import Defensas.Defensa;
 
 /*
  * Componente de vista para dibujar el tablero basado en el modelo Tablero.
@@ -16,35 +22,22 @@ import utils.Sprite;
 public class BoardView extends JPanel {
     Tablero tablero;
     private int tamCelda;
-    // Imágenes de defensas por celda
-    private Image[][] defensasVisuales;
-    // Sprites de defensas por celda
-    private Sprite[][] spritesDefensas;
+    // Proyectiles en vuelo
+    private final List<Proyectil> proyectiles = new ArrayList<>();
 
     public BoardView(Tablero tablero, int tamCelda) {
         this.tablero = tablero;
         this.tamCelda = tamCelda;
-        // Inicializar arreglos de defensas
-        this.defensasVisuales = new Image[tablero.getFilas()][tablero.getColumnas()];
-        this.spritesDefensas = new Sprite[tablero.getFilas()][tablero.getColumnas()];
         updatePreferredSize();
         setBackground(Color.WHITE);
     }
 
     public void setModel(Tablero nuevo) {
         this.tablero = nuevo;
-        // Reinicializar los arreglos de defensas con el nuevo tamaño
-        this.defensasVisuales = new Image[nuevo.getFilas()][nuevo.getColumnas()];
-        this.spritesDefensas = new Sprite[nuevo.getFilas()][nuevo.getColumnas()];
+        this.proyectiles.clear();
         updatePreferredSize();
+        sincronizarSpritesModelo();
         repaint();
-    }
-
-    /* Agrega una imagen de defensa a una celda específica. */
-    public void agregarDefensaVisual(int fila, int columna, Image imagen) {
-        if (fila >= 0 && fila < tablero.getFilas() && columna >= 0 && columna < tablero.getColumnas()) {
-            defensasVisuales[fila][columna] = imagen;
-        }
     }
 
     public int getCellSize() {
@@ -55,31 +48,65 @@ public class BoardView extends JPanel {
         return tamCelda;
     }
 
-    /* Indica si ya existe un sprite en la celda dada. */
-    public boolean haySpriteEn(int fila, int columna) {
-        return spritesDefensas != null
-                && fila >= 0 && fila < tablero.getFilas()
-                && columna >= 0 && columna < tablero.getColumnas()
-                && spritesDefensas[fila][columna] != null;
-    }
-
-    /* Agrega un sprite de defensa en una celda específica. */
-    public void agregarSpriteDefensa(int fila, int columna, Sprite sprite) {
-        if (fila >= 0 && fila < tablero.getFilas() && columna >= 0 && columna < tablero.getColumnas()) {
-            spritesDefensas[fila][columna] = sprite;
+    // Agrega un proyectil a la escena
+    public void agregarProyectil(Proyectil p) {
+        if (p != null) {
+            this.proyectiles.add(p);
         }
     }
 
-    /* Ajusta posición y tamaño de todos los sprites a la cuadrícula actual. */
-    public void sincronizarSpritesConCeldas() {
-        if (spritesDefensas == null)
+    // Actualiza los proyectiles (movimiento y colisiones básicas)
+    public void actualizarProyectilesYColisiones() {
+        if (proyectiles.isEmpty())
+            return;
+        // Actualizar movimiento y limpieza por fuera de pantalla
+        Iterator<Proyectil> it = proyectiles.iterator();
+        while (it.hasNext()) {
+            Proyectil p = it.next();
+            p.actualizar();
+            p.invalidarSiSaleDePantalla(getWidth(), getHeight());
+            if (!p.isActivo()) {
+                it.remove();
+                continue;
+            }
+            // Revisar colisión con zombies si existen en el modelo y tienen sprite
+            boolean impacto = false;
+            for (int i = 0; i < tablero.getFilas() && !impacto; i++) {
+                for (int j = 0; j < tablero.getColumnas() && !impacto; j++) {
+                    Object contenido = tablero.getCasilla(i, j).getContenido();
+                    if (contenido instanceof Zombies z) {
+                        if (p.colisionaCon(z)) {
+                            p.aplicarImpacto(z);
+                            impacto = true;
+                            if (z.getVida() <= 0) {
+                                tablero.getCasilla(i, j).limpiar();
+                            }
+                        }
+                    }
+                }
+            }
+            if (!p.isActivo()) {
+                it.remove();
+            }
+        }
+    }
+
+    // Ajusta posición y tamaño de sprites de elementos colocados en el modelo
+    // (zombies y defensas)
+    private void sincronizarSpritesModelo() {
+        if (tablero == null)
             return;
         for (int i = 0; i < tablero.getFilas(); i++) {
             for (int j = 0; j < tablero.getColumnas(); j++) {
-                Sprite s = spritesDefensas[i][j];
-                if (s != null) {
-                    int x = j * tamCelda;
-                    int y = i * tamCelda;
+                Object contenido = tablero.getCasilla(i, j).getContenido();
+                int x = j * tamCelda;
+                int y = i * tamCelda;
+                if (contenido instanceof Zombies z && z.getSprite() != null) {
+                    Sprite s = z.getSprite();
+                    s.setPosicion(x, y);
+                    s.setTamano(tamCelda, tamCelda);
+                } else if (contenido instanceof Defensas.Defensa d && d.getSprite() != null) {
+                    Sprite s = d.getSprite();
                     s.setPosicion(x, y);
                     s.setTamano(tamCelda, tamCelda);
                 }
@@ -93,13 +120,9 @@ public class BoardView extends JPanel {
         this.tamCelda = newSize;
         updatePreferredSize();
         // Al cambiar el tamaño de celda, sincronizar sprites
-        sincronizarSpritesConCeldas();
+        sincronizarSpritesModelo();
         revalidate();
         repaint();
-    }
-
-    public void setTamCelda(int nuevoTam) {
-        setCellSize(nuevoTam);
     }
 
     private void updatePreferredSize() {
@@ -113,6 +136,7 @@ public class BoardView extends JPanel {
 
         int filas = tablero.getFilas();
         int columnas = tablero.getColumnas();
+        Graphics2D g2d = (Graphics2D) g;
 
         // Limpiar fondo a blanco
         g.setColor(Color.WHITE);
@@ -132,16 +156,29 @@ public class BoardView extends JPanel {
                 g.setColor(new Color(200, 200, 200));
                 g.drawRect(x, y, tamCelda, tamCelda);
 
-                // Dibujar la defensa si existe en esta celda (vía Image)
-                if (defensasVisuales[i][j] != null) {
-                    // Dibujar la imagen de la defensa escalada al tamaño de la celda
-                    g.drawImage(defensasVisuales[i][j], x, y, tamCelda, tamCelda, this);
+                // Dibujar la defensa si existe en esta celda (basado en el modelo)
+                Object contenido = tablero.getCasilla(i, j).getContenido();
+                if (contenido instanceof Defensas.Defensa d && d.getSprite() != null) {
+                    d.getSprite().dibujar(g2d);
                 }
 
-                // Dibujar la defensa si existe como Sprite
-                if (spritesDefensas != null && spritesDefensas[i][j] != null) {
-                    spritesDefensas[i][j].dibujar((Graphics2D) g);
+            }
+        }
+
+        // Dibujar todos los zombies por encima de las celdas
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                Object contenido = tablero.getCasilla(i, j).getContenido();
+                if (contenido instanceof Zombies z && z.getSprite() != null) {
+                    z.getSprite().dibujar(g2d);
                 }
+            }
+        }
+
+        // Dibujar proyectiles por encima
+        if (!proyectiles.isEmpty()) {
+            for (Proyectil p : proyectiles) {
+                p.dibujar(g2d);
             }
         }
 

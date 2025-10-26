@@ -78,7 +78,12 @@ public class Casilla {
 
     @Override
     public String toString() {
-        return String.format("Casilla[%d,%d] - %s",
-                x, y, estaVacia() ? "Vacía" : "Ocupada: " + contenido.getClass().getSimpleName());
+        String estado;
+        if (estaVacia()) {
+            estado = "Vacía";
+        } else {
+            estado = "Ocupada: " + contenido.getClass().getSimpleName();
+        }
+        return String.format("Casilla[%d,%d] - %s", x, y, estado);
     }
 }
