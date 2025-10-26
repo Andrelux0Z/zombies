@@ -58,7 +58,7 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
         txfAtackSpeed = new javax.swing.JTextField();
         txfVida = new javax.swing.JTextField();
         txfCoste = new javax.swing.JTextField();
-        txfRango = new javax.swing.JTextField();
+        txfSpeed = new javax.swing.JTextField();
         txfAparicion = new javax.swing.JTextField();
         lblDamageError = new javax.swing.JLabel();
         lblVidaError = new javax.swing.JLabel();
@@ -70,6 +70,9 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
         lblObjetivos = new javax.swing.JLabel();
         txfObjetivos = new javax.swing.JTextField();
         lblObjetivosError = new javax.swing.JLabel();
+        lblSpeed = new javax.swing.JLabel();
+        txfRango = new javax.swing.JTextField();
+        lblSpeedError = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
@@ -113,11 +116,16 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
         });
 
         cbxZombies.setBackground(new java.awt.Color(0, 153, 0));
-        cbxZombies.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tipos de Zombies", "Contacto por tierra", "Contacto Volador", "Mediano Alcance", "De choque" }));
+        cbxZombies.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tipos de Zombies", "De contacto", "Mediano Alcance", "Zombie Aereo", "De impacto"}));
         cbxZombies.setToolTipText("Hola");
         cbxZombies.setEnabled(false);
         cbxZombies.setVisible(false);
         cbxZombies.setName("Tipos de Zombies"); // NOI18N
+        cbxZombies.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                cbxZombiesMouseEntered(evt);
+            }
+        });
         cbxZombies.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxZombiesActionPerformed(evt);
@@ -128,6 +136,11 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
         cbxDefensas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tipos de defensa", "De contacto", "Mediano Alcance", "Defensa Aerea", "De impacto", "Mediano Alcance Multiple", "Muros de defensa"}));
         cbxDefensas.setToolTipText("");
         cbxDefensas.setName("Tipos de Defensa"); // NOI18N
+        cbxDefensas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                cbxDefensasMouseEntered(evt);
+            }
+        });
         cbxDefensas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxDefensasActionPerformed(evt);
@@ -149,6 +162,11 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
         btnCrearComponente.setText("Crear componente");
         btnCrearComponente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(153, 0, 51), new java.awt.Color(153, 0, 51), new java.awt.Color(153, 0, 51), new java.awt.Color(153, 0, 51)));
         btnCrearComponente.setEnabled(false);
+        btnCrearComponente.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                btnCrearComponenteStateChanged(evt);
+            }
+        });
         btnCrearComponente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCrearComponenteActionPerformed(evt);
@@ -202,12 +220,12 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
             }
         });
 
-        txfRango.setBackground(new java.awt.Color(204, 255, 204));
-        txfRango.setEnabled(false);
-        txfRango.setVisible(false);
-        txfRango.addKeyListener(new java.awt.event.KeyAdapter() {
+        txfSpeed.setBackground(new java.awt.Color(204, 255, 204));
+        txfSpeed.setEnabled(false);
+        txfSpeed.setVisible(false);
+        txfSpeed.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txfRangoKeyReleased(evt);
+                txfSpeedKeyReleased(evt);
             }
         });
 
@@ -270,6 +288,24 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
         lblObjetivosError.setVisible(false);
         lblObjetivosError.setText("No es numero o se encuentra fuera del rango valido");
 
+        lblSpeed.setFont(new java.awt.Font("Tempus Sans ITC", 1, 14)); // NOI18N
+        lblSpeed.setText("Move Speed:");
+        lblSpeed.setVisible(false);
+
+        txfRango.setBackground(new java.awt.Color(204, 255, 204));
+        txfRango.setEnabled(false);
+        txfRango.setVisible(false);
+        txfRango.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txfRangoKeyReleased(evt);
+            }
+        });
+
+        lblSpeedError.setFont(new java.awt.Font("Tempus Sans ITC", 1, 14)); // NOI18N
+        lblSpeedError.setForeground(new java.awt.Color(153, 51, 0));
+        lblSpeedError.setText("No es numero o se encuentra fuera del rango valido");
+        lblSpeedError.setVisible(false);
+
         javax.swing.GroupLayout jpConfiguracionLayout = new javax.swing.GroupLayout(jpConfiguracion);
         jpConfiguracion.setLayout(jpConfiguracionLayout);
         jpConfiguracionLayout.setHorizontalGroup(
@@ -283,26 +319,24 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                     .addComponent(lblDamage)
                     .addComponent(lblCoste, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblAparicion, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblVida))
+                    .addComponent(lblVida)
+                    .addComponent(lblSpeed))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txfVida, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txfAparicion, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txfCoste, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txfDamage, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txfAtackSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txfObjetivos, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txfRango, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txfObjetivos, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(txfSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblVidaError)
-                    .addComponent(lblAparicionError, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblCosteError)
-                    .addComponent(lblDamageError)
-                    .addComponent(lblAtackSpeedError)
+                    .addComponent(lblObjetivosError)
                     .addComponent(lblRangoError, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblObjetivosError))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblSpeedError, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblAtackSpeedError)
+                    .addComponent(lblDamageError)
+                    .addComponent(lblCosteError)
+                    .addComponent(lblAparicionError, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblVidaError))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
                 .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCrearComponente, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jpResultado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -310,14 +344,26 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
             .addGroup(jpConfiguracionLayout.createSequentialGroup()
                 .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpConfiguracionLayout.createSequentialGroup()
+                        .addGap(152, 152, 152)
+                        .addComponent(txfVida, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jpConfiguracionLayout.createSequentialGroup()
+                        .addGap(152, 152, 152)
+                        .addComponent(txfAparicion, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jpConfiguracionLayout.createSequentialGroup()
+                        .addGap(152, 152, 152)
+                        .addComponent(txfCoste, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jpConfiguracionLayout.createSequentialGroup()
+                        .addGap(152, 152, 152)
+                        .addComponent(txfDamage, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jpConfiguracionLayout.createSequentialGroup()
+                        .addGap(152, 152, 152)
+                        .addComponent(txfAtackSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jpConfiguracionLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 576, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jpConfiguracionLayout.createSequentialGroup()
                         .addGap(24, 24, 24)
-                        .addComponent(btnBando))
-                    .addGroup(jpConfiguracionLayout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(cbxDefensas, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cbxZombies, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jpConfiguracionLayout.createSequentialGroup()
                         .addGap(24, 24, 24)
                         .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -327,7 +373,10 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                         .addComponent(lblNameError))
                     .addGroup(jpConfiguracionLayout.createSequentialGroup()
                         .addGap(24, 24, 24)
-                        .addComponent(cbxZombies, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cbxDefensas, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jpConfiguracionLayout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(btnBando)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jpConfiguracionLayout.createSequentialGroup()
@@ -344,6 +393,10 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                 .addComponent(btnBando)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpConfiguracionLayout.createSequentialGroup()
+                        .addComponent(jpResultado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(60, 60, 60)
+                        .addComponent(btnCrearComponente, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jpConfiguracionLayout.createSequentialGroup()
                         .addComponent(cbxDefensas, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -381,17 +434,19 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                             .addComponent(lblAtackSpeed))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblSpeed)
+                            .addComponent(txfSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblSpeedError))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblRango)
                             .addComponent(txfRango, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblRangoError)
-                            .addComponent(lblRango))
+                            .addComponent(lblRangoError))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txfObjetivos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblObjetivosError)
-                            .addComponent(lblObjetivos)))
-                    .addComponent(jpResultado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(60, 60, 60)
-                .addComponent(btnCrearComponente, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblObjetivos))))
                 .addContainerGap(154, Short.MAX_VALUE))
             .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jpConfiguracionLayout.createSequentialGroup()
@@ -428,6 +483,8 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
             cbxDefensas.setVisible(true);
             cbxZombies.setEnabled(false);
             cbxZombies.setVisible(false);
+            
+            opcionesDefensa();
         } else{
             this.btnBando.setText("Zombies");
             this.btnBando.setBackground(new Color(0,153,0));
@@ -435,22 +492,10 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
             cbxDefensas.setVisible(false);
             cbxZombies.setEnabled(true);
             cbxZombies.setVisible(true);
-        }
-
-        lblRango.setVisible(false);
-        txfRango.setVisible(false);
-        txfRango.setEnabled(false);
-        lblObjetivos.setVisible(false);
-        txfObjetivos.setVisible(false);
-        txfObjetivos.setEnabled(false);
-        lblDamage.setVisible(true);
-        txfDamage.setVisible(true);
-        txfDamage.setEnabled(true);
-        lblAtackSpeed.setVisible(true);
-        txfAtackSpeed.setVisible(true);
-        txfAtackSpeed.setEnabled(true);
-               
-        
+            
+            opcionesZombie();
+            btnCrearComponente.setEnabled(isCreationCompleted());
+        }                
     }//GEN-LAST:event_btnBandoActionPerformed
 
     
@@ -458,6 +503,8 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnCrearComponenteActionPerformed
 
+    
+    
     
     private void txfNombreComponenteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txfNombreComponenteKeyReleased
         String textoLeido = txfNombreComponente.getText();
@@ -470,7 +517,7 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
         } else{
             lblNameError.setVisible(true);
         }          
-        //TODO verificar que no se repitan nombres de componentes en esValido()
+        btnCrearComponente.setEnabled(isCreationCompleted());
     }//GEN-LAST:event_txfNombreComponenteKeyReleased
 
     private void txfDamageKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txfDamageKeyReleased
@@ -483,6 +530,7 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
            lblDamageError.setVisible(false);
         }else
             lblDamageError.setVisible(true);
+        btnCrearComponente.setEnabled(isCreationCompleted());
     }//GEN-LAST:event_txfDamageKeyReleased
 
     private void txfVidaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txfVidaKeyReleased
@@ -495,6 +543,7 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
            lblVidaError.setVisible(false);
         }else
             lblVidaError.setVisible(true);
+        btnCrearComponente.setEnabled(isCreationCompleted());
     }//GEN-LAST:event_txfVidaKeyReleased
 
     private void txfAtackSpeedKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txfAtackSpeedKeyReleased
@@ -507,6 +556,7 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
            lblAtackSpeedError.setVisible(false);
         }else
             lblAtackSpeedError.setVisible(true);
+        btnCrearComponente.setEnabled(isCreationCompleted());
     }//GEN-LAST:event_txfAtackSpeedKeyReleased
 
     private void txfAparicionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txfAparicionKeyReleased
@@ -519,19 +569,21 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
            lblAparicionError.setVisible(false);
         }else
             lblAparicionError.setVisible(true);
+        btnCrearComponente.setEnabled(isCreationCompleted());
     }//GEN-LAST:event_txfAparicionKeyReleased
 
-    private void txfRangoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txfRangoKeyReleased
-        String textoLeido = txfRango.getText();
+    private void txfSpeedKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txfSpeedKeyReleased
+        String textoLeido = txfSpeed.getText();
         
         if(textoLeido != null)
             textoLeido = textoLeido.trim();
           
-        if(isNumeric(textoLeido) && Integer.parseInt(textoLeido) >= 0){
-           lblRangoError.setVisible(false);
+        if(isNumeric(textoLeido) && Integer.parseInt(textoLeido) >= 1){
+           lblSpeedError.setVisible(false);
         }else
-            lblRangoError.setVisible(true);
-    }//GEN-LAST:event_txfRangoKeyReleased
+            lblSpeedError.setVisible(true);
+        btnCrearComponente.setEnabled(isCreationCompleted());
+    }//GEN-LAST:event_txfSpeedKeyReleased
 
     private void txfObjetivosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txfObjetivosKeyReleased
         String textoLeido = txfObjetivos.getText();
@@ -543,6 +595,7 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
            lblObjetivosError.setVisible(false);
         }else
             lblObjetivosError.setVisible(true);
+        btnCrearComponente.setEnabled(isCreationCompleted());
     }//GEN-LAST:event_txfObjetivosKeyReleased
 
     private void txfCosteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txfCosteKeyReleased
@@ -555,11 +608,61 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
            lblCosteError.setVisible(false);
         }else
             lblCosteError.setVisible(true);
+        btnCrearComponente.setEnabled(isCreationCompleted());
     }//GEN-LAST:event_txfCosteKeyReleased
 
+    
+    
+    
     private void cbxDefensasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxDefensasActionPerformed
+        opcionesDefensa();
+        btnCrearComponente.setEnabled(isCreationCompleted());
+    }//GEN-LAST:event_cbxDefensasActionPerformed
+
+    private void cbxZombiesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxZombiesActionPerformed
+        opcionesZombie();
+        btnCrearComponente.setEnabled(isCreationCompleted());
+    }//GEN-LAST:event_cbxZombiesActionPerformed
+
+    
+    
+    private void txfRangoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txfRangoKeyReleased
+        String textoLeido = txfRango.getText();
+        
+        if(textoLeido != null)
+            textoLeido = textoLeido.trim();
+          
+        if(isNumeric(textoLeido) && Integer.parseInt(textoLeido) >= 1){
+           lblRangoError.setVisible(false);
+        }else
+            lblRangoError.setVisible(true);
+    }//GEN-LAST:event_txfRangoKeyReleased
+
+    private void cbxDefensasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxDefensasMouseEntered
+        if(cbxDefensas.getModel().getElementAt(0).equals("Tipos de defensa")){
+            String[] opciones = new String[] {"De contacto", "Mediano Alcance", "Defensa Aerea", "De impacto", "Mediano Alcance Multiple", "Muros de defensa"};
+            cbxDefensas.setModel(new javax.swing.DefaultComboBoxModel<>(opciones));
+        }
+    }//GEN-LAST:event_cbxDefensasMouseEntered
+
+    private void cbxZombiesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxZombiesMouseEntered
+        if(cbxZombies.getModel().getElementAt(0).equals("Tipos de Zombies")){
+            String[] opciones = new String[] {"De contacto", "Mediano Alcance", "Zombie Aereo", "De impacto"};
+            cbxZombies.setModel(new javax.swing.DefaultComboBoxModel<>(opciones));
+        }
+    }//GEN-LAST:event_cbxZombiesMouseEntered
+
+    private void btnCrearComponenteStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_btnCrearComponenteStateChanged
+        btnCrearComponente.setEnabled(isCreationCompleted());
+    }//GEN-LAST:event_btnCrearComponenteStateChanged
+
+    private void opcionesDefensa(){
         switch (cbxDefensas.getSelectedItem().toString()) {
             case "Mediano Alcance":
+                lblSpeed.setVisible(false);
+                txfSpeed.setVisible(false);
+                txfSpeed.setEnabled(false);
+                
                 lblRango.setVisible(true);
                 txfRango.setVisible(true);
                 txfRango.setEnabled(true);
@@ -577,6 +680,10 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                 txfAtackSpeed.setEnabled(true);
                 break;
             case "Mediano Alcance Multiple":
+                lblSpeed.setVisible(false);
+                txfSpeed.setVisible(false);
+                txfSpeed.setEnabled(false);
+                
                 lblRango.setVisible(true);
                 txfRango.setVisible(true);
                 txfRango.setEnabled(true);
@@ -594,6 +701,10 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                 txfAtackSpeed.setEnabled(true);
                 break;
             case "Muros de defensa":
+                lblSpeed.setVisible(false);
+                txfSpeed.setVisible(false);
+                txfSpeed.setEnabled(false);
+                
                 lblRango.setVisible(false);
                 txfRango.setVisible(false);
                 txfRango.setEnabled(false);
@@ -610,7 +721,11 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                 txfAtackSpeed.setVisible(false);
                 txfAtackSpeed.setEnabled(false);
                 break;
-            default:
+            case "Defensa Aerea":
+                lblSpeed.setVisible(true);
+                txfSpeed.setVisible(true);
+                txfSpeed.setEnabled(true);                
+                
                 lblRango.setVisible(false);
                 txfRango.setVisible(false);
                 txfRango.setEnabled(false);
@@ -626,12 +741,33 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                 lblAtackSpeed.setVisible(true);
                 txfAtackSpeed.setVisible(true);
                 txfAtackSpeed.setEnabled(true);
-                break;
+                
+            default:
+                lblSpeed.setVisible(false);
+                txfSpeed.setVisible(false);
+                txfSpeed.setEnabled(false);
+                
+                lblRango.setVisible(false);
+                txfRango.setVisible(false);
+                txfRango.setEnabled(false);
+                
+                lblObjetivos.setVisible(false);
+                txfObjetivos.setVisible(false);
+                txfObjetivos.setEnabled(false);
+                
+                lblDamage.setVisible(true);
+                txfDamage.setVisible(true);
+                txfDamage.setEnabled(true);
+                
+                lblAtackSpeed.setVisible(true);
+                txfAtackSpeed.setVisible(true);
+                txfAtackSpeed.setEnabled(true);
+                break; 
         }
-    }//GEN-LAST:event_cbxDefensasActionPerformed
-
-    private void cbxZombiesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxZombiesActionPerformed
-        switch (cbxDefensas.getSelectedItem().toString()) {
+    }
+    
+    private void opcionesZombie(){
+        switch (cbxZombies.getSelectedItem().toString()) {
             case "Mediano Alcance":
                 lblRango.setVisible(true);
                 txfRango.setVisible(true);
@@ -641,12 +777,91 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
                 lblRango.setVisible(false);
                 txfRango.setVisible(false);
                 txfRango.setEnabled(false);
+                
+                lblDamage.setVisible(true);
+                txfDamage.setVisible(true);
+                txfDamage.setEnabled(true);
+                
+                lblAtackSpeed.setVisible(true);
+                txfAtackSpeed.setVisible(true);
+                txfAtackSpeed.setEnabled(true);
+                
                 lblObjetivos.setVisible(false);
                 txfObjetivos.setVisible(false);
-                txfObjetivos.setEnabled(false); 
+                txfObjetivos.setEnabled(false);
+                
+                lblSpeed.setVisible(true);
+                txfSpeed.setVisible(true);
+                txfSpeed.setEnabled(true);
                 break;
         }
-    }//GEN-LAST:event_cbxZombiesActionPerformed
+    }
+   
+
+private boolean isCreationCompleted() {
+    String bando = btnBando.getText();
+
+    // Validar campos base
+    if (isEmptyOrError(txfVida, lblVidaError))                          return false;
+    if (isEmptyOrError(txfAparicion, lblAparicionError))                return false;
+    if (isEmptyOrError(txfNombreComponente, lblNameError))              return false;
+    if (isEmptyOrError(txfCoste, lblCosteError))                        return false;
+
+    // Validaciones por bando
+    if (bando.equals("Zombies")) {
+        String tipo = (String) cbxZombies.getSelectedItem();
+        
+        if(tipo.equals("Tipos de Zombies"))                             return false;
+        
+        if (isEmptyOrError(txfDamage, lblDamageError))                  return false;
+        if (isEmptyOrError(txfAtackSpeed, lblAtackSpeedError))          return false;
+        if (isEmptyOrError(txfSpeed, lblSpeedError))                    return false;
+
+        if (tipo.equals("Mediano Alcance")) {
+            if (isEmptyOrError(txfRango, lblRangoError))                return false;
+        }
+
+    } else if (bando.equals("Defensas")) {
+        String tipo = (String) cbxDefensas.getSelectedItem();
+        
+        if(tipo.equals("Tipos de Zombies"))                             return false;
+
+        switch (tipo) {
+            case "Mediano Alcance":
+                if (isEmptyOrError(txfRango, lblRangoError))            return false;
+                if (isEmptyOrError(txfDamage, lblDamageError))          return false;
+                if (isEmptyOrError(txfAtackSpeed, lblAtackSpeedError))  return false;
+                break;
+            case "Mediano Alcance Multiple":
+                if (isEmptyOrError(txfRango, lblRangoError))            return false;
+                if (isEmptyOrError(txfObjetivos, lblObjetivosError))    return false;
+                if (isEmptyOrError(txfDamage, lblDamageError))          return false;
+                if (isEmptyOrError(txfAtackSpeed, lblAtackSpeedError))  return false;
+                break;
+            case "Defensa Aerea":
+                if (isEmptyOrError(txfSpeed, lblSpeedError))            return false;
+                if (isEmptyOrError(txfDamage, lblDamageError))          return false; 
+                if (isEmptyOrError(txfAtackSpeed, lblAtackSpeedError))  return false;
+                break;
+            case "Muros de defensa":
+                // Ya validado vida, aparicion, coste y nombre
+                break;
+            default: //Para De contacto y de impacto
+                if (isEmptyOrError(txfDamage, lblDamageError))          return false; 
+                if (isEmptyOrError(txfAtackSpeed, lblAtackSpeedError))  return false;
+                break;
+        }
+    }
+
+    return true;
+}
+
+/** Valida si el campo está vacío o hay error visible */
+
+private boolean isEmptyOrError(javax.swing.JTextField campo, javax.swing.JLabel errorLabel) {
+    return campo.getText().trim().isEmpty() || errorLabel.isVisible();
+}
+
 
     
     
@@ -716,6 +931,8 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
     private javax.swing.JLabel lblRangoError;
     private javax.swing.JLabel lblResultadosCaracteristicas;
     private javax.swing.JLabel lblSeleccionarNombre;
+    private javax.swing.JLabel lblSpeed;
+    private javax.swing.JLabel lblSpeedError;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblTituloBando1;
     private javax.swing.JLabel lblVida;
@@ -727,6 +944,7 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
     private javax.swing.JTextField txfNombreComponente;
     private javax.swing.JTextField txfObjetivos;
     private javax.swing.JTextField txfRango;
+    private javax.swing.JTextField txfSpeed;
     private javax.swing.JTextField txfVida;
     // End of variables declaration//GEN-END:variables
 }

@@ -67,28 +67,26 @@
                       <Component id="lblCoste" alignment="0" min="-2" pref="122" max="-2" attributes="0"/>
                       <Component id="lblAparicion" alignment="0" min="-2" pref="122" max="-2" attributes="0"/>
                       <Component id="lblVida" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblSpeed" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="txfVida" alignment="0" min="-2" pref="167" max="-2" attributes="0"/>
-                      <Component id="txfAparicion" alignment="0" min="-2" pref="167" max="-2" attributes="0"/>
-                      <Component id="txfCoste" alignment="0" min="-2" pref="167" max="-2" attributes="0"/>
-                      <Component id="txfDamage" alignment="0" min="-2" pref="167" max="-2" attributes="0"/>
-                      <Component id="txfAtackSpeed" alignment="0" min="-2" pref="167" max="-2" attributes="0"/>
-                      <Component id="txfRango" alignment="0" min="-2" pref="167" max="-2" attributes="0"/>
                       <Component id="txfObjetivos" alignment="0" min="-2" pref="167" max="-2" attributes="0"/>
+                      <Component id="txfRango" alignment="0" min="-2" pref="167" max="-2" attributes="0"/>
+                      <Component id="txfSpeed" alignment="0" min="-2" pref="167" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="lblVidaError" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblAparicionError" alignment="0" min="-2" pref="323" max="-2" attributes="0"/>
-                      <Component id="lblCosteError" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblDamageError" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblAtackSpeedError" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblRangoError" alignment="0" min="-2" pref="323" max="-2" attributes="0"/>
                       <Component id="lblObjetivosError" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblRangoError" alignment="0" min="-2" pref="323" max="-2" attributes="0"/>
+                      <Component id="lblSpeedError" alignment="0" min="-2" pref="323" max="-2" attributes="0"/>
+                      <Component id="lblAtackSpeedError" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblDamageError" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblCosteError" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblAparicionError" alignment="0" min="-2" pref="323" max="-2" attributes="0"/>
+                      <Component id="lblVidaError" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="106" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="btnCrearComponente" min="-2" pref="135" max="-2" attributes="0"/>
                       <Component id="jpResultado" min="-2" max="-2" attributes="0"/>
@@ -97,17 +95,33 @@
               </Group>
               <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="152" pref="152" max="-2" attributes="0"/>
+                          <Component id="txfVida" min="-2" pref="167" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="152" pref="152" max="-2" attributes="0"/>
+                          <Component id="txfAparicion" min="-2" pref="167" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="152" pref="152" max="-2" attributes="0"/>
+                          <Component id="txfCoste" min="-2" pref="167" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="152" pref="152" max="-2" attributes="0"/>
+                          <Component id="txfDamage" min="-2" pref="167" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="152" pref="152" max="-2" attributes="0"/>
+                          <Component id="txfAtackSpeed" min="-2" pref="167" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
                           <Component id="lblTitulo" min="-2" pref="576" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" attributes="0">
-                          <EmptySpace min="24" pref="24" max="-2" attributes="0"/>
-                          <Component id="btnBando" min="-2" max="-2" attributes="0"/>
-                      </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="24" pref="24" max="-2" attributes="0"/>
-                          <Component id="cbxDefensas" min="-2" pref="193" max="-2" attributes="0"/>
+                          <Component id="cbxZombies" min="-2" pref="193" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="24" pref="24" max="-2" attributes="0"/>
@@ -120,10 +134,14 @@
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="24" pref="24" max="-2" attributes="0"/>
-                          <Component id="cbxZombies" min="-2" pref="193" max="-2" attributes="0"/>
+                          <Component id="cbxDefensas" min="-2" pref="193" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="24" pref="24" max="-2" attributes="0"/>
+                          <Component id="btnBando" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace min="555" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
@@ -143,6 +161,11 @@
                   <Component id="btnBando" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jpResultado" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
+                          <Component id="btnCrearComponente" min="-2" pref="55" max="-2" attributes="0"/>
+                      </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="cbxDefensas" min="-2" pref="30" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -186,9 +209,15 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblSpeed" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txfSpeed" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblSpeedError" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblRango" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txfRango" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lblRangoError" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblRango" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -197,10 +226,7 @@
                               <Component id="lblObjetivos" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Component id="jpResultado" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
-                  <Component id="btnCrearComponente" min="-2" pref="55" max="-2" attributes="0"/>
                   <EmptySpace pref="154" max="32767" attributes="0"/>
               </Group>
               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
@@ -293,7 +319,7 @@
               <Color blue="0" green="99" red="0" type="rgb"/>
             </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Tipos de Zombies&quot;, &quot;Contacto por tierra&quot;, &quot;Contacto Volador&quot;, &quot;Mediano Alcance&quot;, &quot;De choque&quot; })" type="code"/>
+              <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Tipos de Zombies&quot;, &quot;De contacto&quot;, &quot;Mediano Alcance&quot;, &quot;Zombie Aereo&quot;, &quot;De impacto&quot;})" type="code"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Hola"/>
             <Property name="enabled" type="boolean" editor="org.netbeans.modules.form.RADConnectionPropertyEditor" postCode="cbxZombies.setVisible(false);">
@@ -306,6 +332,7 @@
             <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value=""/>
           </AccessibilityProperties>
           <Events>
+            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="cbxZombiesMouseEntered"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbxZombiesActionPerformed"/>
           </Events>
           <AuxValues>
@@ -327,6 +354,7 @@
             <Property name="AccessibleContext.accessibleName" type="java.lang.String" value=""/>
           </AccessibilityProperties>
           <Events>
+            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="cbxDefensasMouseEntered"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbxDefensasActionPerformed"/>
           </Events>
           <AuxValues>
@@ -468,15 +496,15 @@
             <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txfCosteKeyReleased"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="txfRango">
+        <Component class="javax.swing.JTextField" name="txfSpeed">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="ff" red="cc" type="rgb"/>
             </Property>
-            <Property name="enabled" type="boolean" value="false" postCode="txfRango.setVisible(false);"/>
+            <Property name="enabled" type="boolean" value="false" postCode="txfSpeed.setVisible(false);"/>
           </Properties>
           <Events>
-            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txfRangoKeyReleased"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txfSpeedKeyReleased"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txfAparicion">
@@ -601,6 +629,45 @@
             </Property>
             <Property name="text" type="java.lang.String" value="No es numero o se encuentra fuera del rango valido"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblSpeed">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tempus Sans ITC" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Move Speed:"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="lblSpeed.setVisible(false);"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txfRango">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="cc" green="ff" red="cc" type="rgb"/>
+            </Property>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txfRangoKeyReleased"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="txfRango.setVisible(false);"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblSpeedError">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tempus Sans ITC" size="14" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="33" red="99" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="No es numero o se encuentra fuera del rango valido"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="lblSpeedError.setVisible(false);"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
