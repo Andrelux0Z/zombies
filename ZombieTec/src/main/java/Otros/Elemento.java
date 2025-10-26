@@ -18,7 +18,7 @@ public abstract class Elemento {
     private int damage;
     private int atackSpeed;
     
-    private final int coste;
+    private int coste;
     private int nivelAparicion;
     private int rango;
     private String identificador;
@@ -28,6 +28,10 @@ public abstract class Elemento {
     private int ubicacion;
     protected Sprite sprite; // Sprite visual del zombie
     private Elemento tipo;
+    
+    public Elemento(){
+        
+    }
     
     public Elemento(int vida, int damage, int atackSpeed, int coste, int nivelAparicion, int rango) {
         this.vida = vida;
