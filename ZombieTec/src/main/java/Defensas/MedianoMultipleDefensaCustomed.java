@@ -4,11 +4,13 @@
  */
 package Defensas;
 
+import java.io.Serializable;
+
 /**
  *
  * @author sando
  */
-public class MedianoMultipleDefensaCustomed extends MedianoMultiple {
+public class MedianoMultipleDefensaCustomed extends MedianoMultiple implements Serializable {
     private String nombre;
     
     public MedianoMultipleDefensaCustomed(String nombre,int vida, int damage, int atackSpeed, int coste, int nivelAparicion, int rango, int cantObjetivos) {

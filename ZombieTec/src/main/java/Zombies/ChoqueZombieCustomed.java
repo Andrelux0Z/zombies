@@ -4,11 +4,13 @@
  */
 package Zombies;
 
+import java.io.Serializable;
+
 /**
  *
  * @author sando
  */
-public class ChoqueZombieCustomed extends Choque {
+public class ChoqueZombieCustomed extends Choque implements Serializable {
     private String nombre;
     
     public ChoqueZombieCustomed(String nombre, int vida, int damage, int atackSpeed, int coste, int nivelAparicion, int velocidadMov) {

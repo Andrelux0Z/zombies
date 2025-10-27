@@ -4,11 +4,13 @@
  */
 package Zombies;
 
+import java.io.Serializable;
+
 /**
  *
  * @author sando
  */
-public class VoladorZombieCustomed extends Volador {
+public class VoladorZombieCustomed extends Volador implements Serializable {
     private String nombre;
     
     public VoladorZombieCustomed(String nombre, int vida, int damage, int atackSpeed, int coste, int nivelAparicion, int velocidadMov) {

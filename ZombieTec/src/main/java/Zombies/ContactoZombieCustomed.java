@@ -4,11 +4,13 @@
  */
 package Zombies;
 
+import java.io.Serializable;
+
 /**
  *
  * @author sando
  */
-public class ContactoZombieCustomed extends Contacto {
+public class ContactoZombieCustomed extends Contacto implements Serializable {
     private String nombre;
     
     public ContactoZombieCustomed(String nombre, int vida, int damage, int atackSpeed, int coste, int nivelAparicion, int velocidadMov) {

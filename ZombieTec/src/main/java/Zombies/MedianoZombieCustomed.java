@@ -4,11 +4,13 @@
  */
 package Zombies;
 
+import java.io.Serializable;
+
 /**
  *
  * @author sando
  */
-public class MedianoZombieCustomed extends Mediano{
+public class MedianoZombieCustomed extends Mediano implements Serializable {
     private String nombre;
     
     public MedianoZombieCustomed(String nombre, int vida, int damage, int atackSpeed, int coste, int nivelAparicion, int velocidadMov, int rango) {

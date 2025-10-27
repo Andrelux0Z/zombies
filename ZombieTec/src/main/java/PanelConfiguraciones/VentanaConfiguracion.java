@@ -9,6 +9,7 @@ import utils.Sprite;
 import Otros.*;
 import Zombies.*;
 import Defensas.*;
+import utils.Serializacion;
 
 /**
  *
@@ -497,7 +498,14 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
 
     
     private void btnCrearComponenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearComponenteActionPerformed
-        crearElemento();
+        newElemento = crearElemento();
+        String nombre = txfNombreComponente.getText().trim();
+        if(btnBando.getText().equals("Defensa")){
+            Serializacion.serializacion("Defensas"+nombre,(Serializable)newElemento);
+        }else 
+            Serializacion.serializacion("Zombies."+nombre,((Serializable)newElemento));
+            
+        }
     }//GEN-LAST:event_btnCrearComponenteActionPerformed
 
     
@@ -856,7 +864,7 @@ private boolean isEmptyOrError(javax.swing.JTextField campo, javax.swing.JLabel 
     return campo.getText().trim().isEmpty() || errorLabel.isVisible();
 }
 
-private void crearElemento(){
+private Elemento crearElemento(){
     //Atributos globales para todos
     String nombre = txfNombreComponente.getText().trim();
     int vida = Integer.parseInt(txfVida.getText().trim());
@@ -877,14 +885,14 @@ private void crearElemento(){
                 damage = Integer.parseInt(txfDamage.getText().trim());
                 atackSpeed = Integer.parseInt(txfAtackSpeed.getText().trim());
                 newElemento = new ContactoDefensaCustomed(nombre,vida,damage,atackSpeed,coste,nivelAparicion);
-                return;
+                return newElemento;
                 
             case "Mediano Alcance":
                 damage = Integer.parseInt(txfDamage.getText().trim());
                 atackSpeed = Integer.parseInt(txfAtackSpeed.getText().trim());
                 rango = Integer.parseInt(txfRango.getText().trim());
                 newElemento = new MedianoDefensaCustomed(nombre,vida,damage,atackSpeed,coste,nivelAparicion,rango);
-                return;
+                return newElemento;
                 
             
             case "Mediano Alcance Multiple":
@@ -893,7 +901,7 @@ private void crearElemento(){
                 rango = Integer.parseInt(txfRango.getText().trim());
                 objetivos = Integer.parseInt(txfObjetivos.getText().trim());
                 newElemento = new MedianoMultipleDefensaCustomed(nombre,vida,damage,atackSpeed,coste,nivelAparicion,rango,objetivos);
-                return;
+                return newElemento;
                 
             case "Defensa Aerea":
                 damage = Integer.parseInt(txfDamage.getText().trim());
@@ -905,10 +913,11 @@ private void crearElemento(){
                 damage = Integer.parseInt(txfDamage.getText().trim());
                 atackSpeed = Integer.parseInt(txfAtackSpeed.getText().trim());
                 newElemento = new ImpactoDefensaCustomed(nombre,vida,damage,atackSpeed,coste,nivelAparicion);
-                return;
+                return newElemento;
                 
             case "Muros de defensa":
                 newElemento = new MuroDefensaCustomed(nombre,vida,coste,nivelAparicion);
+                return newElemento;
         }
     } else if(btnBando.getText().equals("Zombies")){
         String tipo = cbxZombies.getSelectedItem().toString();
@@ -920,27 +929,29 @@ private void crearElemento(){
                 damage = Integer.parseInt(txfDamage.getText().trim());
                 atackSpeed = Integer.parseInt(txfAtackSpeed.getText().trim());
                 newElemento = new ContactoZombieCustomed(nombre,vida,damage,atackSpeed,coste,nivelAparicion,velocidadMov);
-                return;
+                return newElemento;
             
             case "Mediano Alcance":
                 damage = Integer.parseInt(txfDamage.getText().trim());
                 atackSpeed = Integer.parseInt(txfAtackSpeed.getText().trim());
                 rango = Integer.parseInt(txfRango.getText().trim());
                 newElemento = new MedianoZombieCustomed(nombre,vida,damage,atackSpeed,coste,nivelAparicion,velocidadMov,rango);
-                return;
+                return newElemento;
                 
             case "Zombie Aereo":
                 damage = Integer.parseInt(txfDamage.getText().trim());
                 atackSpeed = Integer.parseInt(txfAtackSpeed.getText().trim());
                 newElemento = new VoladorZombieCustomed(nombre, vida, damage, atackSpeed, coste, nivelAparicion, velocidadMov);
-                return;
+                return newElemento;
             
             case "De impacto":
                 damage = Integer.parseInt(txfDamage.getText().trim());
                 atackSpeed = Integer.parseInt(txfAtackSpeed.getText().trim());
                 newElemento = new ChoqueZombieCustomed(nombre,vida,damage,atackSpeed,coste,nivelAparicion,velocidadMov);
+                return newElemento;
         }
     }
+        return null;
 }
     
     

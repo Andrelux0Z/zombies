@@ -4,11 +4,13 @@
  */
 package Defensas;
 
+import java.io.Serializable;
+
 /**
  *
  * @author sando
  */
-public class MuroDefensaCustomed extends Muro {
+public class MuroDefensaCustomed extends Muro implements Serializable {
     private String nombre;
     
     public MuroDefensaCustomed(String nombre, int vida, int coste, int nivelAparicion) {

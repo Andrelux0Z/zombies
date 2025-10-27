@@ -4,11 +4,13 @@
  */
 package Defensas;
 
+import java.io.Serializable;
+
 /**
  *
  * @author sando
  */
-public class ImpactoDefensaCustomed extends Impacto{
+public class ImpactoDefensaCustomed extends Impacto implements Serializable {
     private String nombre;
     
     public ImpactoDefensaCustomed(String nombre, int vida, int damage, int atackSpeed, int coste, int nivelAparicion) {

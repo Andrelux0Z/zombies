@@ -4,11 +4,13 @@
  */
 package Defensas;
 
+import java.io.Serializable;
+
 /**
  *
  * @author sando
  */
-public class VoladorDefensaCustomed extends Volador{
+public class VoladorDefensaCustomed extends Volador implements Serializable {
     private String nombre;
     
     public VoladorDefensaCustomed(String nombre,int vida, int damage, int atackSpeed, int coste, int nivelAparicion, int velocidadMov) {
