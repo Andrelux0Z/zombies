@@ -58,7 +58,7 @@ public class ControladorDragDrop {
                     dtde.acceptDrop(DnDConstants.ACTION_COPY);
 
                     Point puntoSoltado = dtde.getLocation();
-                    int tamCelda = boardView.getTamCelda();
+                    int tamCelda = boardView.getCellSize();
                     int columna = puntoSoltado.x / tamCelda;
                     int fila = puntoSoltado.y / tamCelda;
 

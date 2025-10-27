@@ -9,7 +9,7 @@ package Otros;
  * @author sando
  */
 public class ReportesEspecificos {
-    private Elemento oposicion; //Enemigo dependiendo de si es usado con zombie o defensa
+    private Elemento oposicion; // Enemigo dependiendo de si es usado con zombie o defensa
     private int ataqueRecibido;
     private int ataqueDado;
 
@@ -19,11 +19,8 @@ public class ReportesEspecificos {
         this.ataqueRecibido = 0;
     }
 
-    
-    
-    
-    ////////Gets y Sets
-    
+    //////// Gets y Sets
+
     public Elemento getOposicion() {
         return oposicion;
     }
@@ -40,10 +37,12 @@ public class ReportesEspecificos {
         return ataqueDado;
     }
 
-    public void setAtaqueDado(int ataqueDado) {
-        this.ataqueDado = ataqueDado;
+    public void addAtaqueDado(int daño) {
+        this.ataqueDado += daño;
     }
-    
-    
-    
+
+    public void addAtaqueRecibido(int daño) {
+        this.ataqueRecibido += daño;
+    }
+
 }

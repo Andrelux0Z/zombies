@@ -8,6 +8,12 @@ import Zombies.ZombieBasico;
 import utils.Proyectil;
 import utils.Sprite;
 import menus.ZombieSpawner;
+import java.util.ArrayList;
+import java.util.List;
+
+interface DañoListener {
+    void onDañoRegistrado();
+}
 
 // Controlador del juego.
 // Hace que las torretas disparen al zombie más cercano.
@@ -22,10 +28,14 @@ public class GameController {
     private final BoardView boardView;
     private Timer timer; // Llama periódicamente a "tickDeJuego()"
     private final ZombieSpawner zombieSpawner;
+    private final List<EventoDaño> historialDaños;
+    private final List<DañoListener> dañoListeners;
 
     public GameController(BoardView boardView) {
         this.boardView = boardView;
         this.zombieSpawner = new ZombieSpawner(boardView);
+        this.historialDaños = new ArrayList<>();
+        this.dañoListeners = new ArrayList<>();
     }
 
     // Inicia el bucle de juego si no está ya corriendo.
@@ -122,7 +132,10 @@ public class GameController {
                     // Buscar la defensa más cercana a este zombie
                     ObjetivoDefensa objetivo = encontrarDefensaMasCercana(i, j);
                     if (objetivo != null) {
-                        z.atacarDefensaCercana(objetivo.defensa, ahora, modelo, objetivo.fila, objetivo.col);
+                        int daño = z.atacarDefensaCercana(objetivo.defensa, ahora, modelo, objetivo.fila, objetivo.col);
+                        if (daño > 0) {
+                            registrarDaño(z, objetivo.defensa, daño, ahora);
+                        }
                     }
                 }
             }
@@ -215,34 +228,34 @@ public class GameController {
 
     // Estructura para devolver datos del objetivo (posición y referencia al
     // zombie).
-    private static class ObjetivoZombie {
-        final Zombies zombie;
-        final double x, y; // coordenadas del centro del objetivo
-        final int fila, col; // por si hace falta saber su celda
+    // private static class ObjetivoZombie {
+    // final Zombies zombie;
+    // final double x, y; // coordenadas del centro del objetivo
+    // final int fila, col; // por si hace falta saber su celda
 
-        ObjetivoZombie(Zombies zombie, double x, double y, int fila, int col) {
-            this.zombie = zombie;
-            this.x = x;
-            this.y = y;
-            this.fila = fila;
-            this.col = col;
-        }
-    }
+    // ObjetivoZombie(Zombies zombie, double x, double y, int fila, int col) {
+    // this.zombie = zombie;
+    // this.x = x;
+    // this.y = y;
+    // this.fila = fila;
+    // this.col = col;
+    // }
+    // }
 
     // Estructura para devolver datos de la defensa más cercana
 
     // Tengo que revisar esto
 
-    private static class ObjetivoDefensa {
-        final Defensas.Defensa defensa;
-        final int fila, col;
+    // private static class ObjetivoDefensa {
+    // final Defensas.Defensa defensa;
+    // final int fila, col;
 
-        ObjetivoDefensa(Defensas.Defensa defensa, int fila, int col) {
-            this.defensa = defensa;
-            this.fila = fila;
-            this.col = col;
-        }
-    }
+    // ObjetivoDefensa(Defensas.Defensa defensa, int fila, int col) {
+    // this.defensa = defensa;
+    // this.fila = fila;
+    // this.col = col;
+    // }
+    // }
 
     // Busca la defensa más cercana a la celda (para ataques de zombies)
     private ObjetivoDefensa encontrarDefensaMasCercana(int filaZ, int colZ) {
@@ -309,5 +322,31 @@ public class GameController {
                 }
             }
         }
+    }
+
+    // Registra un evento de daño en el historial y en los reportes de las entidades
+    public void registrarDaño(Otros.Elemento atacante, Otros.Elemento objetivo, int daño, long tiempo) {
+        // Historial global
+        historialDaños.add(new EventoDaño(atacante.getId(), atacante.getClass().getSimpleName(),
+                objetivo.getId(), objetivo.getClass().getSimpleName(), daño, tiempo));
+
+        // Actualizar reportes específicos
+        int indiceAtacante = atacante.buscarReporte(objetivo);
+        atacante.getReporte().getArrReportesEspecificos().get(indiceAtacante).addAtaqueDado(daño);
+        int indiceObjetivo = objetivo.buscarReporte(atacante);
+        objetivo.getReporte().getArrReportesEspecificos().get(indiceObjetivo).addAtaqueRecibido(daño);
+
+        // Notificar listeners
+        for (DañoListener listener : dañoListeners) {
+            listener.onDañoRegistrado();
+        }
+    }
+
+    public void addDañoListener(DañoListener listener) {
+        dañoListeners.add(listener);
+    }
+
+    public List<EventoDaño> getHistorialDaños() {
+        return historialDaños;
     }
 }

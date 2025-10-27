@@ -112,18 +112,22 @@ public abstract class Zombies extends Elemento {
         this.ultimoAtaqueMs = ahoraMs;
     }
 
+    public long getUltimoAtaqueMs() {
+        return ultimoAtaqueMs;
+    }
+
     // Ataca a una defensa cercana si puede (cooldown y distancia)
-    public void atacarDefensaCercana(Defensas.Defensa defensa, long ahoraMs, Tablero tablero, int filaDefensa,
+    public int atacarDefensaCercana(Defensas.Defensa defensa, long ahoraMs, Tablero tablero, int filaDefensa,
             int colDefensa) {
         if (defensa == null || !puedeAtacar(ahoraMs)) {
-            return;
+            return 0;
         }
 
         // Verificar distancia
         Sprite spriteZombie = getSprite();
         Sprite spriteDefensa = defensa.getSprite();
         if (spriteZombie == null || spriteDefensa == null) {
-            return;
+            return 0;
         }
 
         double centroZX = spriteZombie.getX() + spriteZombie.getAncho() / 2.0;
@@ -146,7 +150,10 @@ public abstract class Zombies extends Elemento {
             if (defensa.getVida() <= 0) {
                 tablero.getCasilla(filaDefensa, colDefensa).setContenido(null);
             }
+
+            return dano;
         }
+        return 0;
     }
 
     public String getRutaImagen() {

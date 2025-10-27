@@ -23,6 +23,10 @@ public class Proyectil {
     // Representación visual opcional
     private Sprite sprite;
 
+    // Referencia al atacante
+    private Otros.Elemento atacante;
+
+    // constructor básico
     public Proyectil(int damage, double vx, double vy, int ancho, int alto, double x, double y) {
         this.damage = damage;
         this.vx = vx;
@@ -33,9 +37,24 @@ public class Proyectil {
         this.y = y;
     }
 
+    // constructor con sprite
     public Proyectil(int damage, double vx, double vy, int ancho, int alto, double x, double y, String rutaSprite) {
         this(damage, vx, vy, ancho, alto, x, y);
         this.sprite = new Sprite(rutaSprite, (int) Math.round(x), (int) Math.round(y), ancho, alto);
+    }
+
+    // constructor con atacante
+    public Proyectil(int damage, double vx, double vy, int ancho, int alto, double x, double y,
+            Otros.Elemento atacante) {
+        this(damage, vx, vy, ancho, alto, x, y);
+        this.atacante = atacante;
+    }
+
+    // constructor con atacante y sprite
+    public Proyectil(int damage, double vx, double vy, int ancho, int alto, double x, double y, String rutaSprite,
+            Otros.Elemento atacante) {
+        this(damage, vx, vy, ancho, alto, x, y, rutaSprite);
+        this.atacante = atacante;
     }
 
     public void actualizar() {
@@ -78,13 +97,15 @@ public class Proyectil {
     }
 
     // Aplica el daño al zombie y desactiva el proyectil.
-    public void aplicarImpacto(Zombies zombie) {
+    public int aplicarImpacto(Zombies zombie) {
         if (!activo || zombie == null)
-            return;
+            return 0;
         // Zombies hereda de Elemento, así que gestionamos la vida directamente.
-        int vidaRestante = zombie.getVida() - damage;
+        int vidaAntes = zombie.getVida();
+        int vidaRestante = vidaAntes - damage;
         zombie.setVida(Math.max(0, vidaRestante));
         activo = false;
+        return Math.min(damage, vidaAntes); // Daño real aplicado
     }
 
     // Marca el proyectil como inactivo si sale de los límites indicados.
@@ -203,5 +224,9 @@ public class Proyectil {
             sprite.setPosicion((int) Math.round(x), (int) Math.round(y));
             sprite.setTamano(ancho, alto);
         }
+    }
+
+    public Otros.Elemento getAtacante() {
+        return atacante;
     }
 }

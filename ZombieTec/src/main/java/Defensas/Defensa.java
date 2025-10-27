@@ -72,7 +72,7 @@ public abstract class Defensa extends Elemento {
         double velY = (dy / distancia) * velocidadProyectil;
 
         // Crear proyectil con el daño de la defensa
-        Proyectil proyectil = new Proyectil(getDamage(), velX, velY, 6, 6, origenX, origenY);
+        Proyectil proyectil = new Proyectil(getDamage(), velX, velY, 6, 6, origenX, origenY, this);
 
         // Registrar disparo
         registrarDisparo(ahoraMs);

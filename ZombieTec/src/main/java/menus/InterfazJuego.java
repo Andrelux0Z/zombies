@@ -10,12 +10,15 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author andre
  */
-public class InterfazJuego extends javax.swing.JFrame {
+public class InterfazJuego extends javax.swing.JFrame implements SeleccionListener, DañoListener {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger
             .getLogger(InterfazJuego.class.getName());
@@ -29,6 +32,8 @@ public class InterfazJuego extends javax.swing.JFrame {
     // Controladores
     private PanelDefensas panelDefensas;
     private ControladorDragDrop controladorDragDrop;
+    private MenuPausa menuPausa;
+    private Otros.Elemento entidadSeleccionada;
 
     /**
      * Creates new form InterfazJuego
@@ -37,6 +42,9 @@ public class InterfazJuego extends javax.swing.JFrame {
         initComponents();
         configurarTableroEnPanelDeJuego();
         configurarPanelDefensas();
+        configurarTeclado();
+        menuPausa = new MenuPausa(this);
+        actualizarPanelInformacion(); // Mostrar historial general inicialmente
     }
 
     /**
@@ -215,6 +223,9 @@ public class InterfazJuego extends javax.swing.JFrame {
         // Inicializar y arrancar el controlador del juego
         if (gameController == null) {
             gameController = new GameController(boardView);
+            boardView.setGameController(gameController);
+            boardView.setSeleccionListener(this);
+            gameController.addDañoListener(this);
         }
         gameController.start();
 
@@ -270,5 +281,162 @@ public class InterfazJuego extends javax.swing.JFrame {
 
         // Configurar defensas en el panel inferior
         panelDefensas.configurar(PanelDragAndDrop);
+    }
+
+    /**
+     * Configura el listener de teclado para pausar el juego con Escape.
+     */
+    private void configurarTeclado() {
+        this.addKeyListener(new KeyListener() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    pausarJuego();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+        });
+        this.setFocusable(true);
+    }
+
+    /**
+     * Pausa el juego y muestra el menú de pausa.
+     */
+    public void pausarJuego() {
+        if (gameController != null) {
+            gameController.stop();
+        }
+        menuPausa.setVisible(true);
+    }
+
+    /**
+     * Reanuda el juego desde el menú de pausa.
+     */
+    public void reanudarJuego() {
+        if (gameController != null) {
+            gameController.start();
+        }
+    }
+
+    /**
+     * Guarda el estado actual del juego.
+     */
+    public void guardarJuego() {
+        // TODO: Implementar guardado usando SaveLoadManager
+        JOptionPane.showMessageDialog(this, "Funcionalidad de guardado no implementada aún.", "Guardar",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public void onEntidadSeleccionada(Otros.Elemento entidad) {
+        this.entidadSeleccionada = entidad;
+        actualizarPanelInformacion();
+    }
+
+    public void onDañoRegistrado() {
+        actualizarPanelInformacion();
+    }
+
+    private void actualizarPanelInformacion() {
+        PanelInformacion.removeAll();
+        if (entidadSeleccionada != null) {
+            PanelInformacion.setLayout(new java.awt.GridBagLayout());
+            java.awt.GridBagConstraints gbc = new java.awt.GridBagConstraints();
+            gbc.insets = new java.awt.Insets(5, 5, 5, 5);
+            gbc.anchor = java.awt.GridBagConstraints.WEST;
+
+            // Nombre y ID
+            javax.swing.JLabel lblNombre = new javax.swing.JLabel(
+                    "Tipo: " + entidadSeleccionada.getClass().getSimpleName() + " ID: " + entidadSeleccionada.getId());
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            gbc.gridwidth = 2;
+            PanelInformacion.add(lblNombre, gbc);
+
+            // Vida
+            javax.swing.JLabel lblVida = new javax.swing.JLabel("Vida: " + entidadSeleccionada.getVida());
+            gbc.gridy = 1;
+            PanelInformacion.add(lblVida, gbc);
+
+            // Daño total hecho
+            int dañoHecho = calcularDañoHecho(entidadSeleccionada);
+            javax.swing.JLabel lblDañoHecho = new javax.swing.JLabel("Daño Hecho: " + dañoHecho);
+            gbc.gridy = 2;
+            PanelInformacion.add(lblDañoHecho, gbc);
+
+            // Daño total recibido
+            int dañoRecibido = calcularDañoRecibido(entidadSeleccionada);
+            javax.swing.JLabel lblDañoRecibido = new javax.swing.JLabel("Daño Recibido: " + dañoRecibido);
+            gbc.gridy = 3;
+            PanelInformacion.add(lblDañoRecibido, gbc);
+
+            // Historial relevante
+            javax.swing.JTextArea txtHistorial = new javax.swing.JTextArea();
+            txtHistorial.setEditable(false);
+            txtHistorial.setText(obtenerHistorialRelevante(entidadSeleccionada));
+            javax.swing.JScrollPane scroll = new javax.swing.JScrollPane(txtHistorial);
+            gbc.gridy = 4;
+            gbc.fill = java.awt.GridBagConstraints.BOTH;
+            gbc.weightx = 1;
+            gbc.weighty = 1;
+            PanelInformacion.add(scroll, gbc);
+        } else {
+            // Mostrar historial general
+            PanelInformacion.setLayout(new java.awt.BorderLayout());
+            javax.swing.JLabel lblTitulo = new javax.swing.JLabel("Historial General de Daños");
+            lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+            PanelInformacion.add(lblTitulo, java.awt.BorderLayout.NORTH);
+
+            javax.swing.JTextArea txtHistorialGeneral = new javax.swing.JTextArea();
+            txtHistorialGeneral.setEditable(false);
+            txtHistorialGeneral.setText(obtenerHistorialGeneral());
+            javax.swing.JScrollPane scroll = new javax.swing.JScrollPane(txtHistorialGeneral);
+            PanelInformacion.add(scroll, java.awt.BorderLayout.CENTER);
+        }
+        PanelInformacion.revalidate();
+        PanelInformacion.repaint();
+    }
+
+    private int calcularDañoHecho(Otros.Elemento entidad) {
+        if (entidad.getReporte() == null)
+            return 0;
+        return entidad.getReporte().getArrReportesEspecificos().stream()
+                .mapToInt(Otros.ReportesEspecificos::getAtaqueDado)
+                .sum();
+    }
+
+    private int calcularDañoRecibido(Otros.Elemento entidad) {
+        if (entidad.getReporte() == null)
+            return 0;
+        return entidad.getReporte().getArrReportesEspecificos().stream()
+                .mapToInt(Otros.ReportesEspecificos::getAtaqueRecibido)
+                .sum();
+    }
+
+    private String obtenerHistorialRelevante(Otros.Elemento entidad) {
+        if (gameController == null)
+            return "";
+        StringBuilder sb = new StringBuilder("Historial de Daños:\n");
+        gameController.getHistorialDaños().stream()
+                .filter(e -> e.getAtacanteId() == entidad.getId() || e.getObjetivoId() == entidad.getId())
+                .forEach(e -> sb.append(e.toString()).append("\n"));
+        return sb.toString();
+    }
+
+    private String obtenerHistorialGeneral() {
+        if (gameController == null)
+            return "No hay historial disponible.";
+        StringBuilder sb = new StringBuilder();
+        gameController.getHistorialDaños().forEach(e -> sb.append(e.toString()).append("\n"));
+        if (sb.length() == 0) {
+            sb.append("Aún no hay eventos de daño.");
+        }
+        return sb.toString();
     }
 }

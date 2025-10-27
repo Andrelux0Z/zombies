@@ -7,6 +7,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.util.ArrayList;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.JPanel;
@@ -14,6 +16,10 @@ import utils.Sprite;
 import utils.Proyectil;
 import Zombies.Zombies;
 import Defensas.Defensa;
+
+interface SeleccionListener {
+    void onEntidadSeleccionada(Otros.Elemento entidad);
+}
 
 /*
  * Componente de vista para dibujar el tablero basado en el modelo Tablero.
@@ -24,12 +30,22 @@ public class BoardView extends JPanel {
     private int tamCelda;
     // Proyectiles en vuelo
     private final List<Proyectil> proyectiles = new ArrayList<>();
+    private GameController gameController;
+    private Otros.Elemento entidadSeleccionada;
+    private SeleccionListener seleccionListener;
 
     public BoardView(Tablero tablero, int tamCelda) {
         this.tablero = tablero;
         this.tamCelda = tamCelda;
         updatePreferredSize();
         setBackground(Color.WHITE);
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                seleccionarEntidad(e.getX(), e.getY());
+            }
+        });
     }
 
     public void setModel(Tablero nuevo) {
@@ -44,8 +60,47 @@ public class BoardView extends JPanel {
         return tamCelda;
     }
 
-    public int getTamCelda() {
-        return tamCelda;
+    public void setGameController(GameController gc) {
+        this.gameController = gc;
+    }
+
+    public void setSeleccionListener(SeleccionListener listener) {
+        this.seleccionListener = listener;
+    }
+
+    public Otros.Elemento getEntidadSeleccionada() {
+        return entidadSeleccionada;
+    }
+
+    private void seleccionarEntidad(int x, int y) {
+        // Recorrer todas las celdas para encontrar entidades
+        for (int i = 0; i < tablero.getFilas(); i++) {
+            for (int j = 0; j < tablero.getColumnas(); j++) {
+                Object contenido = tablero.getCasilla(i, j).getContenido();
+                if (contenido instanceof Otros.Elemento elem) {
+                    Sprite sprite = elem.getSprite();
+                    if (sprite != null) {
+                        int spriteX = sprite.getX();
+                        int spriteY = sprite.getY();
+                        int spriteAncho = sprite.getAncho();
+                        int spriteAlto = sprite.getAlto();
+                        if (x >= spriteX && x <= spriteX + spriteAncho &&
+                                y >= spriteY && y <= spriteY + spriteAlto) {
+                            entidadSeleccionada = elem;
+                            if (seleccionListener != null) {
+                                seleccionListener.onEntidadSeleccionada(elem);
+                            }
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+        // No se encontró entidad
+        entidadSeleccionada = null;
+        if (seleccionListener != null) {
+            seleccionListener.onEntidadSeleccionada(null);
+        }
     }
 
     // Agrega un proyectil a la escena
@@ -76,8 +131,11 @@ public class BoardView extends JPanel {
                     Object contenido = tablero.getCasilla(i, j).getContenido();
                     if (contenido instanceof Zombies z) {
                         if (p.colisionaCon(z)) {
-                            p.aplicarImpacto(z);
+                            int daño = p.aplicarImpacto(z);
                             impacto = true;
+                            if (gameController != null && daño > 0 && p.getAtacante() != null) {
+                                gameController.registrarDaño(p.getAtacante(), z, daño, System.currentTimeMillis());
+                            }
                             if (z.getVida() <= 0) {
                                 tablero.getCasilla(i, j).limpiar();
                             }
