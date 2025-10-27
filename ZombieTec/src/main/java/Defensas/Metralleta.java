@@ -4,7 +4,7 @@ package Defensas;
 public class Metralleta extends MedianoMultiple {
 
     public Metralleta() {
-        super(90, 15, 4, 100, 3,3); // vida, damage, atackSpeed, coste, nivelAparicion
+        super(90, 15, 4, 100, 3,3,3); // vida, damage, atackSpeed, coste, nivelAparicion
     }
     //TODO>>>>QUEREMOS HACERLO MULTIPLE?
 }
