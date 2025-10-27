@@ -7,6 +7,10 @@ package PanelConfiguraciones;
 import java.awt.Color;
 import utils.Sprite;
 import Otros.*;
+import Zombies.*;
+import Defensas.*;
+import java.io.Serializable;
+import utils.Serializacion;
 
 /**
  *
@@ -162,11 +166,6 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
         btnCrearComponente.setText("Crear componente");
         btnCrearComponente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(153, 0, 51), new java.awt.Color(153, 0, 51), new java.awt.Color(153, 0, 51), new java.awt.Color(153, 0, 51)));
         btnCrearComponente.setEnabled(false);
-        btnCrearComponente.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                btnCrearComponenteStateChanged(evt);
-            }
-        });
         btnCrearComponente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCrearComponenteActionPerformed(evt);
@@ -500,7 +499,11 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
 
     
     private void btnCrearComponenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearComponenteActionPerformed
-        
+        String nombre = txfNombreComponente.getText().trim();
+        if(btnBando.getText().equals("Defensa")){
+            Serializacion.serializacion("Defensas"+nombre,(Serializable)newElemento);
+        }else 
+            Serializacion.serializacion("Zombies."+nombre,((Serializable)newElemento));
     }//GEN-LAST:event_btnCrearComponenteActionPerformed
 
     
@@ -636,6 +639,7 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
            lblRangoError.setVisible(false);
         }else
             lblRangoError.setVisible(true);
+        btnCrearComponente.setEnabled(isCreationCompleted());
     }//GEN-LAST:event_txfRangoKeyReleased
 
     private void cbxDefensasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxDefensasMouseEntered
@@ -651,10 +655,6 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
             cbxZombies.setModel(new javax.swing.DefaultComboBoxModel<>(opciones));
         }
     }//GEN-LAST:event_cbxZombiesMouseEntered
-
-    private void btnCrearComponenteStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_btnCrearComponenteStateChanged
-        btnCrearComponente.setEnabled(isCreationCompleted());
-    }//GEN-LAST:event_btnCrearComponenteStateChanged
 
     private void opcionesDefensa(){
         switch (cbxDefensas.getSelectedItem().toString()) {
@@ -856,13 +856,99 @@ private boolean isCreationCompleted() {
     return true;
 }
 
-/** Valida si el campo está vacío o hay error visible */
 
+//Valida si el campo está vacío o hay error visible
 private boolean isEmptyOrError(javax.swing.JTextField campo, javax.swing.JLabel errorLabel) {
     return campo.getText().trim().isEmpty() || errorLabel.isVisible();
 }
 
-
+private void crearElemento(){
+    //Atributos globales para todos
+    String nombre = txfNombreComponente.getText().trim();
+    int vida = Integer.parseInt(txfVida.getText().trim());
+    int coste = Integer.parseInt(txfCoste.getText().trim());
+    int nivelAparicion = Integer.parseInt(txfAparicion.getText().trim());
+    
+    //Inicializar las demas
+    int damage;
+    int atackSpeed;
+    int rango;
+    int objetivos;
+    int velocidadMov;
+    
+    if(btnBando.getText().equals("Defensa")){
+        String tipo = cbxDefensas.getSelectedItem().toString();
+        switch (tipo) {
+            case "De contacto":
+                damage = Integer.parseInt(txfDamage.getText().trim());
+                atackSpeed = Integer.parseInt(txfAtackSpeed.getText().trim());
+                newElemento = new ContactoDefensaCustomed(nombre,vida,damage,atackSpeed,coste,nivelAparicion);
+                return;
+                
+            case "Mediano Alcance":
+                damage = Integer.parseInt(txfDamage.getText().trim());
+                atackSpeed = Integer.parseInt(txfAtackSpeed.getText().trim());
+                rango = Integer.parseInt(txfRango.getText().trim());
+                newElemento = new MedianoDefensaCustomed(nombre,vida,damage,atackSpeed,coste,nivelAparicion,rango);
+                return;
+                
+            
+            case "Mediano Alcance Multiple":
+                damage = Integer.parseInt(txfDamage.getText().trim());
+                atackSpeed = Integer.parseInt(txfAtackSpeed.getText().trim());
+                rango = Integer.parseInt(txfRango.getText().trim());
+                objetivos = Integer.parseInt(txfObjetivos.getText().trim());
+                newElemento = new MedianoMultipleDefensaCustomed(nombre,vida,damage,atackSpeed,coste,nivelAparicion,rango,objetivos);
+                return;
+                
+            case "Defensa Aerea":
+                damage = Integer.parseInt(txfDamage.getText().trim());
+                atackSpeed = Integer.parseInt(txfAtackSpeed.getText().trim());
+                velocidadMov = Integer.parseInt(txfSpeed.getText().trim());
+                newElemento = new VoladorDefensaCustomed(nombre, vida, damage, atackSpeed, coste, nivelAparicion, velocidadMov);
+                return;
+            
+            case "De impacto":
+                damage = Integer.parseInt(txfDamage.getText().trim());
+                atackSpeed = Integer.parseInt(txfAtackSpeed.getText().trim());
+                newElemento = new ImpactoDefensaCustomed(nombre,vida,damage,atackSpeed,coste,nivelAparicion);
+                return;
+                
+            case "Muros de defensa":
+                newElemento = new MuroDefensaCustomed(nombre,vida,coste,nivelAparicion);
+        }
+    } else if(btnBando.getText().equals("Zombies")){
+        String tipo = cbxZombies.getSelectedItem().toString();
+        velocidadMov = Integer.parseInt(txfSpeed.getText().trim());
+        
+        switch (tipo) {
+            
+            case "De contacto":
+                damage = Integer.parseInt(txfDamage.getText().trim());
+                atackSpeed = Integer.parseInt(txfAtackSpeed.getText().trim());
+                newElemento = new ContactoZombieCustomed(nombre,vida,damage,atackSpeed,coste,nivelAparicion,velocidadMov);
+                return;
+            
+            case "Mediano Alcance":
+                damage = Integer.parseInt(txfDamage.getText().trim());
+                atackSpeed = Integer.parseInt(txfAtackSpeed.getText().trim());
+                rango = Integer.parseInt(txfRango.getText().trim());
+                newElemento = new MedianoZombieCustomed(nombre,vida,damage,atackSpeed,coste,nivelAparicion,velocidadMov,rango);
+                return;
+                
+            case "Zombie Aereo":
+                damage = Integer.parseInt(txfDamage.getText().trim());
+                atackSpeed = Integer.parseInt(txfAtackSpeed.getText().trim());
+                newElemento = new VoladorZombieCustomed(nombre, vida, damage, atackSpeed, coste, nivelAparicion, velocidadMov);
+                return;
+            
+            case "De impacto":
+                damage = Integer.parseInt(txfDamage.getText().trim());
+                atackSpeed = Integer.parseInt(txfAtackSpeed.getText().trim());
+                newElemento = new ChoqueZombieCustomed(nombre,vida,damage,atackSpeed,coste,nivelAparicion,velocidadMov);
+        }
+    }
+}
     
     
     private boolean esValido(String nombre){ //true si es valido, false si no es valido
