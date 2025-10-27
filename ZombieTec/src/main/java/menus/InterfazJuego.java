@@ -6,12 +6,17 @@ package menus;
 
 import Tablero.Tablero;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 /**
@@ -24,8 +29,8 @@ public class InterfazJuego extends javax.swing.JFrame implements SeleccionListen
             .getLogger(InterfazJuego.class.getName());
 
     // Variables para el tablero de juego
-    private int filasTablero = 25;
-    private int columnasTablero = 25;
+    private int filasTablero = 20;
+    private int columnasTablero = 20;
     private BoardView boardView;
     private GameController gameController;
 
@@ -58,13 +63,11 @@ public class InterfazJuego extends javax.swing.JFrame implements SeleccionListen
     // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        PanelJuego = new javax.swing.JPanel();
+        PanelJuego = new BackgroundPanel();
         PanelInformacion = new javax.swing.JPanel();
         PanelDragAndDrop = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        PanelJuego.setBackground(new java.awt.Color(255, 204, 255));
 
         javax.swing.GroupLayout PanelJuegoLayout = new javax.swing.GroupLayout(PanelJuego);
         PanelJuego.setLayout(PanelJuegoLayout);
@@ -156,7 +159,7 @@ public class InterfazJuego extends javax.swing.JFrame implements SeleccionListen
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelDragAndDrop;
     private javax.swing.JPanel PanelInformacion;
-    private javax.swing.JPanel PanelJuego;
+    private BackgroundPanel PanelJuego;
     // End of variables declaration//GEN-END:variables
 
     /**
@@ -438,5 +441,30 @@ public class InterfazJuego extends javax.swing.JFrame implements SeleccionListen
             sb.append("Aún no hay eventos de daño.");
         }
         return sb.toString();
+    }
+
+    private class BackgroundPanel extends javax.swing.JPanel {
+        private Image backgroundImage;
+
+        public BackgroundPanel() {
+            try {
+                java.io.File file = new java.io.File("src/main/java/Resourses/otros/fondohierba.jpg");
+                if (file.exists()) {
+                    backgroundImage = ImageIO.read(file);
+                } else {
+                    System.out.println("Image not found at " + file.getAbsolutePath());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            if (backgroundImage != null) {
+                g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+            }
+        }
     }
 }
