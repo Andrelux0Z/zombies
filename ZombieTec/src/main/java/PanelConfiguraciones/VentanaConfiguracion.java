@@ -9,8 +9,16 @@ import utils.Sprite;
 import Otros.*;
 import Zombies.*;
 import Defensas.*;
+import java.awt.Image;
 import java.io.Serializable;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import utils.Serializacion;
+
+import java.io.File;
+import java.util.Set;
+import java.util.HashSet;
 
 /**
  *
@@ -18,6 +26,8 @@ import utils.Serializacion;
  */
 public class VentanaConfiguracion extends javax.swing.JFrame {
     Elemento newElemento;
+    String rutaImagen;
+    Image newImage;
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaConfiguracion.class.getName());
 
@@ -28,7 +38,24 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
         initComponents();
             
     }
+    
+    
+private static final Set<String> DEFAULT_DEFENSES = new HashSet<>();
+private static final Set<String> DEFAULT_ZOMBIES = new HashSet<>();
 
+static {
+    // Nombres por defecto para defensas (ajusta según tus clases base)
+    DEFAULT_DEFENSES.add("ArbolVida");
+    DEFAULT_DEFENSES.add("Bomba");
+    DEFAULT_DEFENSES.add("GatoGlobo");
+    DEFAULT_DEFENSES.add("Lanzallamas");
+    DEFAULT_DEFENSES.add("Metralleta");
+    DEFAULT_DEFENSES.add("MuroBasico");
+    DEFAULT_DEFENSES.add("Torreta");
+
+    // Nombres por defecto para zombies (ajusta según tus clases base)
+    DEFAULT_ZOMBIES.add("ZombieBasico");
+}
 
     
     
@@ -42,14 +69,12 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
     private void initComponents() {
 
         jpConfiguracion = new javax.swing.JPanel();
-        jpResultado = new javax.swing.JPanel();
-        lblResultadosCaracteristicas = new javax.swing.JLabel();
         lblTitulo = new javax.swing.JLabel();
         lblDamage = new javax.swing.JLabel();
         btnBando = new javax.swing.JToggleButton();
         cbxZombies = new javax.swing.JComboBox<>();
         cbxDefensas = new javax.swing.JComboBox<>();
-        lblSeleccionarNombre = new javax.swing.JLabel();
+        lblNombreComponente = new javax.swing.JLabel();
         txfNombreComponente = new javax.swing.JTextField();
         btnCrearComponente = new javax.swing.JButton();
         lblTituloBando1 = new javax.swing.JLabel();
@@ -77,6 +102,12 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
         lblSpeed = new javax.swing.JLabel();
         txfRango = new javax.swing.JTextField();
         lblSpeedError = new javax.swing.JLabel();
+        btnRegresar = new javax.swing.JButton();
+        btnConfiguracionExistentes = new javax.swing.JButton();
+        btnSeleccionarImagen = new javax.swing.JButton();
+        lblImagenInsertada = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        lblComponenteCreado = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
@@ -84,26 +115,6 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
 
         jpConfiguracion.setBackground(new java.awt.Color(153, 255, 153));
         jpConfiguracion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-
-        jpResultado.setBackground(new java.awt.Color(255, 153, 102));
-        jpResultado.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED, new java.awt.Color(153, 153, 0), new java.awt.Color(51, 0, 51)));
-
-        lblResultadosCaracteristicas.setBackground(new java.awt.Color(255, 204, 204));
-        lblResultadosCaracteristicas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-        lblResultadosCaracteristicas.setOpaque(true);
-
-        javax.swing.GroupLayout jpResultadoLayout = new javax.swing.GroupLayout(jpResultado);
-        jpResultado.setLayout(jpResultadoLayout);
-        jpResultadoLayout.setHorizontalGroup(
-            jpResultadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblResultadosCaracteristicas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
-        );
-        jpResultadoLayout.setVerticalGroup(
-            jpResultadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpResultadoLayout.createSequentialGroup()
-                .addComponent(lblResultadosCaracteristicas, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 219, Short.MAX_VALUE))
-        );
 
         lblTitulo.setFont(new java.awt.Font("Tempus Sans ITC", 1, 18)); // NOI18N
         lblTitulo.setText("Bienvenido a la customizacion de Defensas/Zombies para ZombiesTec");
@@ -151,8 +162,8 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
             }
         });
 
-        lblSeleccionarNombre.setFont(new java.awt.Font("Tempus Sans ITC", 1, 14)); // NOI18N
-        lblSeleccionarNombre.setText("Seleccione el nombre de su nueva componente:");
+        lblNombreComponente.setFont(new java.awt.Font("Tempus Sans ITC", 1, 14)); // NOI18N
+        lblNombreComponente.setText("Seleccione el nombre de su nueva componente:");
 
         txfNombreComponente.setBackground(new java.awt.Color(204, 255, 204));
         txfNombreComponente.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -305,153 +316,238 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
         lblSpeedError.setText("No es numero o se encuentra fuera del rango valido");
         lblSpeedError.setVisible(false);
 
+        btnRegresar.setBackground(new java.awt.Color(255, 0, 51));
+        btnRegresar.setText(">>>REGRESAR");
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarActionPerformed(evt);
+            }
+        });
+
+        btnConfiguracionExistentes.setBackground(new java.awt.Color(255, 0, 51));
+        btnConfiguracionExistentes.setText(">>>Configuracion");
+        btnConfiguracionExistentes.setEnabled(false);
+        btnConfiguracionExistentes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfiguracionExistentesActionPerformed(evt);
+            }
+        });
+
+        btnSeleccionarImagen.setBackground(new java.awt.Color(255, 51, 51));
+        btnSeleccionarImagen.setText("Seleccionar imagen");
+        btnSeleccionarImagen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeleccionarImagenActionPerformed(evt);
+            }
+        });
+
+        lblImagenInsertada.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(0, 153, 51), null, new java.awt.Color(0, 102, 0)));
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        lblComponenteCreado.setFont(new java.awt.Font("Tempus Sans ITC", 1, 14)); // NOI18N
+        lblComponenteCreado.setForeground(new java.awt.Color(153, 51, 0));
+        lblComponenteCreado.setVisible(false);
+        lblComponenteCreado.setText("Componente creado!");
+
         javax.swing.GroupLayout jpConfiguracionLayout = new javax.swing.GroupLayout(jpConfiguracion);
         jpConfiguracion.setLayout(jpConfiguracionLayout);
         jpConfiguracionLayout.setHorizontalGroup(
             jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpConfiguracionLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblObjetivos)
-                    .addComponent(lblRango)
-                    .addComponent(lblAtackSpeed)
-                    .addComponent(lblDamage)
-                    .addComponent(lblCoste, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblAparicion, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblVida)
-                    .addComponent(lblSpeed))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txfObjetivos, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txfRango, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txfSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblObjetivosError)
-                    .addComponent(lblRangoError, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblSpeedError, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblAtackSpeedError)
-                    .addComponent(lblDamageError)
-                    .addComponent(lblCosteError)
-                    .addComponent(lblAparicionError, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblVidaError))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
-                .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCrearComponente, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jpResultado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(98, 98, 98))
-            .addGroup(jpConfiguracionLayout.createSequentialGroup()
                 .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpConfiguracionLayout.createSequentialGroup()
-                        .addGap(152, 152, 152)
-                        .addComponent(txfVida, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jpConfiguracionLayout.createSequentialGroup()
-                        .addGap(152, 152, 152)
-                        .addComponent(txfAparicion, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jpConfiguracionLayout.createSequentialGroup()
-                        .addGap(152, 152, 152)
-                        .addComponent(txfCoste, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jpConfiguracionLayout.createSequentialGroup()
-                        .addGap(152, 152, 152)
-                        .addComponent(txfDamage, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jpConfiguracionLayout.createSequentialGroup()
-                        .addGap(152, 152, 152)
-                        .addComponent(txfAtackSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jpConfiguracionLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 576, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addComponent(btnRegresar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnConfiguracionExistentes))
                     .addGroup(jpConfiguracionLayout.createSequentialGroup()
                         .addGap(24, 24, 24)
-                        .addComponent(cbxZombies, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jpConfiguracionLayout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblSeleccionarNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txfNombreComponente))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblNameError))
-                    .addGroup(jpConfiguracionLayout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(cbxDefensas, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jpConfiguracionLayout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(btnBando)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jpConfiguracionLayout.createSequentialGroup()
-                    .addGap(28, 28, 28)
-                    .addComponent(lblTituloBando1)
-                    .addContainerGap(723, Short.MAX_VALUE)))
+                        .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jpConfiguracionLayout.createSequentialGroup()
+                                .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 576, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblTituloBando1)
+                                    .addComponent(btnBando)
+                                    .addComponent(cbxDefensas, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cbxZombies, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 129, Short.MAX_VALUE))
+                            .addGroup(jpConfiguracionLayout.createSequentialGroup()
+                                .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblNombreComponente)
+                                    .addComponent(txfNombreComponente, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jpConfiguracionLayout.createSequentialGroup()
+                                        .addComponent(lblVida)
+                                        .addGap(96, 96, 96)
+                                        .addComponent(txfVida, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jpConfiguracionLayout.createSequentialGroup()
+                                        .addComponent(lblAparicion, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(6, 6, 6)
+                                        .addComponent(txfAparicion, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jpConfiguracionLayout.createSequentialGroup()
+                                        .addComponent(lblCoste, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(6, 6, 6)
+                                        .addComponent(txfCoste, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jpConfiguracionLayout.createSequentialGroup()
+                                        .addComponent(lblDamage)
+                                        .addGap(91, 91, 91)
+                                        .addComponent(txfDamage, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jpConfiguracionLayout.createSequentialGroup()
+                                        .addComponent(lblAtackSpeed)
+                                        .addGap(52, 52, 52)
+                                        .addComponent(txfAtackSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jpConfiguracionLayout.createSequentialGroup()
+                                        .addComponent(lblSpeed)
+                                        .addGap(51, 51, 51)
+                                        .addComponent(txfSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jpConfiguracionLayout.createSequentialGroup()
+                                        .addComponent(lblRango)
+                                        .addGap(83, 83, 83)
+                                        .addComponent(txfRango, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jpConfiguracionLayout.createSequentialGroup()
+                                        .addComponent(lblObjetivos)
+                                        .addGap(64, 64, 64)
+                                        .addComponent(txfObjetivos, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jpConfiguracionLayout.createSequentialGroup()
+                                        .addGap(19, 19, 19)
+                                        .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblImagenInsertada, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnSeleccionarImagen))))
+                                .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jpConfiguracionLayout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblNameError)
+                                            .addGroup(jpConfiguracionLayout.createSequentialGroup()
+                                                .addGap(12, 12, 12)
+                                                .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(lblObjetivosError, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(lblRangoError, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(lblSpeedError, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(lblAtackSpeedError, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(lblDamageError, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(lblCosteError, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(lblAparicionError, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(lblVidaError, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(jButton1))))
+                                        .addGap(37, 58, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpConfiguracionLayout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(btnCrearComponente, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblComponenteCreado))
+                                        .addGap(17, 17, 17)))))))
+                .addContainerGap())
         );
         jpConfiguracionLayout.setVerticalGroup(
             jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpConfiguracionLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(60, 60, 60)
+                .addGap(6, 6, 6)
+                .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnRegresar)
+                    .addComponent(btnConfiguracionExistentes))
+                .addGap(3, 3, 3)
+                .addComponent(lblTitulo)
+                .addGap(6, 6, 6)
+                .addComponent(lblTituloBando1)
+                .addGap(6, 6, 6)
                 .addComponent(btnBando)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(10, 10, 10)
+                .addComponent(cbxDefensas, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
+                .addComponent(cbxZombies, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpConfiguracionLayout.createSequentialGroup()
-                        .addComponent(jpResultado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(60, 60, 60)
-                        .addComponent(btnCrearComponente, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jpConfiguracionLayout.createSequentialGroup()
-                        .addComponent(cbxDefensas, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbxZombies, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblNombreComponente, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
+                        .addComponent(txfNombreComponente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(lblSeleccionarNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txfNombreComponente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblNameError))
-                        .addGap(18, 18, 18)
-                        .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblVida)
-                            .addComponent(txfVida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblVidaError))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txfAparicion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblAparicion)
-                            .addComponent(lblAparicionError))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblCoste)
-                            .addComponent(txfCoste, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblCosteError))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblDamage)
-                            .addComponent(txfDamage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblDamageError))
+                        .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jpConfiguracionLayout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addComponent(lblVida))
+                            .addComponent(txfVida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jpConfiguracionLayout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addComponent(lblAparicion))
+                            .addComponent(txfAparicion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jpConfiguracionLayout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addComponent(lblCoste))
+                            .addComponent(txfCoste, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jpConfiguracionLayout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addComponent(lblDamage))
+                            .addComponent(txfDamage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(5, 5, 5)
-                        .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblAtackSpeedError)
-                            .addComponent(txfAtackSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblAtackSpeed))
+                        .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jpConfiguracionLayout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addComponent(lblAtackSpeed))
+                            .addComponent(txfAtackSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jpConfiguracionLayout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addComponent(lblSpeed))
+                            .addComponent(txfSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jpConfiguracionLayout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addComponent(lblRango))
+                            .addComponent(txfRango, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jpConfiguracionLayout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addComponent(lblObjetivos))
+                            .addComponent(txfObjetivos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jpConfiguracionLayout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(lblNameError)
+                        .addGap(21, 21, 21)
+                        .addComponent(lblVidaError)
+                        .addGap(9, 9, 9)
+                        .addComponent(lblAparicionError)
+                        .addGap(9, 9, 9)
+                        .addComponent(lblCosteError)
+                        .addGap(9, 9, 9)
+                        .addComponent(lblDamageError)
+                        .addGap(8, 8, 8)
+                        .addComponent(lblAtackSpeedError)
+                        .addGap(9, 9, 9)
+                        .addComponent(lblSpeedError)
+                        .addGap(9, 9, 9)
+                        .addComponent(lblRangoError)
+                        .addGap(9, 9, 9)
+                        .addComponent(lblObjetivosError)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpConfiguracionLayout.createSequentialGroup()
+                        .addComponent(btnSeleccionarImagen)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblSpeed)
-                            .addComponent(txfSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblSpeedError))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblRango)
-                            .addComponent(txfRango, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblRangoError))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txfObjetivos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblObjetivosError)
-                            .addComponent(lblObjetivos))))
-                .addContainerGap(154, Short.MAX_VALUE))
-            .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jpConfiguracionLayout.createSequentialGroup()
-                    .addGap(83, 83, 83)
-                    .addComponent(lblTituloBando1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(678, Short.MAX_VALUE)))
+                        .addGroup(jpConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblImagenInsertada, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1))
+                        .addGap(32, 32, 32))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpConfiguracionLayout.createSequentialGroup()
+                        .addComponent(btnCrearComponente, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblComponenteCreado)
+                        .addGap(47, 47, 47))))
         );
 
         cbxZombies.getAccessibleContext().setAccessibleName("");
@@ -462,7 +558,7 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jpConfiguracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jpConfiguracion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -500,10 +596,17 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
     
     private void btnCrearComponenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearComponenteActionPerformed
         String nombre = txfNombreComponente.getText().trim();
-        if(btnBando.getText().equals("Defensa")){
-            Serializacion.serializacion("Defensas"+nombre,(Serializable)newElemento);
+        try {
+        if(btnBando.getText().equals("Defensas")){
+            
+            System.out.println(Serializacion.serializacion("src/main/java/Defensas/customized/"+nombre,(Elemento)newElemento));
         }else 
-            Serializacion.serializacion("Zombies."+nombre,((Serializable)newElemento));
+            Serializacion.serializacion("src/main/java/Zombies/customized/"+nombre,newElemento);
+        } catch (Exception e) {
+            logger.log(java.util.logging.Level.SEVERE,"Error al serializar el archivo " + e.getMessage(), e);
+        }
+        btnCrearComponente.setEnabled(isCreationCompleted());
+        lblComponenteCreado.setVisible(true);
     }//GEN-LAST:event_btnCrearComponenteActionPerformed
 
     
@@ -656,6 +759,44 @@ public class VentanaConfiguracion extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cbxZombiesMouseEntered
 
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        menus.MenuPrincipal editor = new menus.MenuPrincipal();
+        editor.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRegresarActionPerformed
+
+    private void btnConfiguracionExistentesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfiguracionExistentesActionPerformed
+        //VentanaExistentes menu = new VentanaExistentes();
+        //menu.setVisible(true);
+        //this.dispose();
+    }//GEN-LAST:event_btnConfiguracionExistentesActionPerformed
+
+    private void btnSeleccionarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarImagenActionPerformed
+        rutaImagen = "";
+        JFileChooser imagen = new JFileChooser();
+        FileNameExtensionFilter filtrado = new FileNameExtensionFilter("JPG & PNG","jpg","png");
+        imagen.setFileFilter(filtrado);
+        
+        int respuesta = imagen.showOpenDialog(this);
+        
+        if(respuesta == JFileChooser.APPROVE_OPTION){
+            rutaImagen = imagen.getSelectedFile().getPath();
+            
+            newImage = new ImageIcon(rutaImagen).getImage();
+            
+            //Mostrar imagen
+            ImageIcon newIcon = new ImageIcon(newImage.getScaledInstance(lblImagenInsertada.getWidth(), lblImagenInsertada.getHeight(), Image.SCALE_SMOOTH));
+            
+            lblImagenInsertada.setIcon(newIcon);
+            btnCrearComponente.setEnabled(isCreationCompleted()); 
+        }
+    }//GEN-LAST:event_btnSeleccionarImagenActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Elemento prueba = Serializacion.deserializacion("src/main/java/Defensas/customized/andres",Elemento.class);
+        System.out.println(prueba.getDamage());
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     private void opcionesDefensa(){
         switch (cbxDefensas.getSelectedItem().toString()) {
             case "Mediano Alcance":
@@ -806,7 +947,8 @@ private boolean isCreationCompleted() {
     if (isEmptyOrError(txfAparicion, lblAparicionError))                return false;
     if (isEmptyOrError(txfNombreComponente, lblNameError))              return false;
     if (isEmptyOrError(txfCoste, lblCosteError))                        return false;
-
+    if (newImage == null)                                               return false;                        
+    
     // Validaciones por bando
     if (bando.equals("Zombies")) {
         String tipo = (String) cbxZombies.getSelectedItem();
@@ -824,7 +966,7 @@ private boolean isCreationCompleted() {
     } else if (bando.equals("Defensas")) {
         String tipo = (String) cbxDefensas.getSelectedItem();
         
-        if(tipo.equals("Tipos de Zombies"))                             return false;
+        if(tipo.equals("Tipos de defensa"))                             return false;
 
         switch (tipo) {
             case "Mediano Alcance":
@@ -951,14 +1093,35 @@ private void crearElemento(){
 }
     
     
-    private boolean esValido(String nombre){ //true si es valido, false si no es valido
-        //TODO verificar que no se repitanlos nombres de componentes
-        if(nombre.equals(""))
-            return false;
-        //}else if(nombre.equals("hola"))  //Se aplicaria para todas las clases mas hijas que hay
-        return true;
-        //return false;
+private boolean esValido(String nombre) {
+    if (nombre == null || nombre.trim().isEmpty()) {
+        return false;
     }
+
+    String trimmedName = nombre.trim();
+    String path;
+    Set<String> defaults;
+
+    if (btnBando.getText().equals("Defensas")) {
+        path = "src/main/java/Defensas/customized/" + trimmedName;
+        defaults = DEFAULT_DEFENSES;
+    } else {
+        path = "src/main/java/Zombies/customized/" + trimmedName;
+        defaults = DEFAULT_ZOMBIES;
+    }
+
+    // Verificar si existe como custom (archivo serializado)
+    File customFile = new File(path);
+    if (customFile.exists()) {
+        return false; // Nombre ya usado en customs
+    }
+
+    // Verificar si existe en defaults
+    if (defaults.contains(trimmedName)) {
+        return false; // Nombre ya usado en defaults
+    }
+    return true;
+}
     
     private boolean isNumeric(String str){
         try {
@@ -997,26 +1160,30 @@ private void crearElemento(){
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnBando;
+    private javax.swing.JButton btnConfiguracionExistentes;
     private javax.swing.JButton btnCrearComponente;
+    private javax.swing.JButton btnRegresar;
+    private javax.swing.JButton btnSeleccionarImagen;
     private javax.swing.JComboBox<String> cbxDefensas;
     private javax.swing.JComboBox<String> cbxZombies;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jpConfiguracion;
-    private javax.swing.JPanel jpResultado;
     private javax.swing.JLabel lblAparicion;
     private javax.swing.JLabel lblAparicionError;
     private javax.swing.JLabel lblAtackSpeed;
     private javax.swing.JLabel lblAtackSpeedError;
+    private javax.swing.JLabel lblComponenteCreado;
     private javax.swing.JLabel lblCoste;
     private javax.swing.JLabel lblCosteError;
     private javax.swing.JLabel lblDamage;
     private javax.swing.JLabel lblDamageError;
+    private javax.swing.JLabel lblImagenInsertada;
     private javax.swing.JLabel lblNameError;
+    private javax.swing.JLabel lblNombreComponente;
     private javax.swing.JLabel lblObjetivos;
     private javax.swing.JLabel lblObjetivosError;
     private javax.swing.JLabel lblRango;
     private javax.swing.JLabel lblRangoError;
-    private javax.swing.JLabel lblResultadosCaracteristicas;
-    private javax.swing.JLabel lblSeleccionarNombre;
     private javax.swing.JLabel lblSpeed;
     private javax.swing.JLabel lblSpeedError;
     private javax.swing.JLabel lblTitulo;

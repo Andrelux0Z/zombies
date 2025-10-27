@@ -1,6 +1,7 @@
 package Defensas;
 
 import Otros.*;
+import java.io.Serializable;
 import utils.Proyectil;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -11,7 +12,7 @@ import utils.Proyectil;
  *
  * @author sando
  */
-public abstract class Defensa extends Elemento {
+public abstract class Defensa extends Elemento implements Serializable {
 
     private long ultimoDisparoMs = 0L;
 

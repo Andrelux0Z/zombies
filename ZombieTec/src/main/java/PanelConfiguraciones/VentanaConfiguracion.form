@@ -29,7 +29,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jpConfiguracion" min="-2" max="-2" attributes="0"/>
+          <Component id="jpConfiguracion" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -58,234 +58,250 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="lblObjetivos" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblRango" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblAtackSpeed" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblDamage" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblCoste" alignment="0" min="-2" pref="122" max="-2" attributes="0"/>
-                      <Component id="lblAparicion" alignment="0" min="-2" pref="122" max="-2" attributes="0"/>
-                      <Component id="lblVida" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblSpeed" alignment="0" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="txfObjetivos" alignment="0" min="-2" pref="167" max="-2" attributes="0"/>
-                      <Component id="txfRango" alignment="0" min="-2" pref="167" max="-2" attributes="0"/>
-                      <Component id="txfSpeed" alignment="0" min="-2" pref="167" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="lblObjetivosError" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblRangoError" alignment="0" min="-2" pref="323" max="-2" attributes="0"/>
-                      <Component id="lblSpeedError" alignment="0" min="-2" pref="323" max="-2" attributes="0"/>
-                      <Component id="lblAtackSpeedError" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblDamageError" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblCosteError" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblAparicionError" alignment="0" min="-2" pref="323" max="-2" attributes="0"/>
-                      <Component id="lblVidaError" alignment="0" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace pref="106" max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="btnCrearComponente" min="-2" pref="135" max="-2" attributes="0"/>
-                      <Component id="jpResultado" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" pref="98" max="-2" attributes="0"/>
-              </Group>
-              <Group type="102" attributes="0">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="152" pref="152" max="-2" attributes="0"/>
-                          <Component id="txfVida" min="-2" pref="167" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="152" pref="152" max="-2" attributes="0"/>
-                          <Component id="txfAparicion" min="-2" pref="167" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="152" pref="152" max="-2" attributes="0"/>
-                          <Component id="txfCoste" min="-2" pref="167" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="152" pref="152" max="-2" attributes="0"/>
-                          <Component id="txfDamage" min="-2" pref="167" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="152" pref="152" max="-2" attributes="0"/>
-                          <Component id="txfAtackSpeed" min="-2" pref="167" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
-                          <Component id="lblTitulo" min="-2" pref="576" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="24" pref="24" max="-2" attributes="0"/>
-                          <Component id="cbxZombies" min="-2" pref="193" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="24" pref="24" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="lblSeleccionarNombre" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txfNombreComponente" alignment="0" max="32767" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="lblNameError" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="24" pref="24" max="-2" attributes="0"/>
-                          <Component id="cbxDefensas" min="-2" pref="193" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                          <Component id="btnRegresar" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="btnConfiguracionExistentes" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <EmptySpace min="24" pref="24" max="-2" attributes="0"/>
-                          <Component id="btnBando" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="lblTitulo" min="-2" pref="576" max="-2" attributes="0"/>
+                                      <Component id="lblTituloBando1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnBando" min="-2" max="-2" attributes="0"/>
+                                      <Component id="cbxDefensas" min="-2" pref="193" max="-2" attributes="0"/>
+                                      <Component id="cbxZombies" alignment="0" min="-2" pref="193" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="0" pref="129" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="lblNombreComponente" min="-2" max="-2" attributes="0"/>
+                                      <Component id="txfNombreComponente" min="-2" pref="295" max="-2" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Component id="lblVida" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="96" pref="96" max="-2" attributes="0"/>
+                                          <Component id="txfVida" min="-2" pref="167" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" attributes="0">
+                                          <Component id="lblAparicion" min="-2" pref="122" max="-2" attributes="0"/>
+                                          <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                                          <Component id="txfAparicion" min="-2" pref="167" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" attributes="0">
+                                          <Component id="lblCoste" min="-2" pref="122" max="-2" attributes="0"/>
+                                          <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                                          <Component id="txfCoste" min="-2" pref="167" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" attributes="0">
+                                          <Component id="lblDamage" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="91" pref="91" max="-2" attributes="0"/>
+                                          <Component id="txfDamage" min="-2" pref="167" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" attributes="0">
+                                          <Component id="lblAtackSpeed" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="52" pref="52" max="-2" attributes="0"/>
+                                          <Component id="txfAtackSpeed" min="-2" pref="167" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" attributes="0">
+                                          <Component id="lblSpeed" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="51" pref="51" max="-2" attributes="0"/>
+                                          <Component id="txfSpeed" min="-2" pref="167" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" attributes="0">
+                                          <Component id="lblRango" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="83" pref="83" max="-2" attributes="0"/>
+                                          <Component id="txfRango" min="-2" pref="167" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" attributes="0">
+                                          <Component id="lblObjetivos" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="64" pref="64" max="-2" attributes="0"/>
+                                          <Component id="txfObjetivos" min="-2" pref="167" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="lblImagenInsertada" min="-2" pref="171" max="-2" attributes="0"/>
+                                              <Component id="btnSeleccionarImagen" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                  </Group>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="lblNameError" min="-2" max="-2" attributes="0"/>
+                                              <Group type="102" attributes="0">
+                                                  <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Component id="lblObjetivosError" alignment="0" min="-2" pref="334" max="-2" attributes="0"/>
+                                                      <Component id="lblRangoError" alignment="0" min="-2" pref="334" max="-2" attributes="0"/>
+                                                      <Component id="lblSpeedError" alignment="0" min="-2" pref="334" max="-2" attributes="0"/>
+                                                      <Component id="lblAtackSpeedError" alignment="0" min="-2" pref="334" max="-2" attributes="0"/>
+                                                      <Component id="lblDamageError" alignment="0" min="-2" pref="334" max="-2" attributes="0"/>
+                                                      <Component id="lblCosteError" alignment="0" min="-2" pref="334" max="-2" attributes="0"/>
+                                                      <Component id="lblAparicionError" alignment="0" min="-2" pref="334" max="-2" attributes="0"/>
+                                                      <Component id="lblVidaError" alignment="0" min="-2" pref="334" max="-2" attributes="0"/>
+                                                      <Component id="jButton1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                              </Group>
+                                          </Group>
+                                          <EmptySpace min="37" pref="58" max="32767" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Group type="103" groupAlignment="1" attributes="0">
+                                              <Component id="btnCrearComponente" min="-2" pref="135" max="-2" attributes="0"/>
+                                              <Component id="lblComponenteCreado" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                          </Group>
                       </Group>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
-              </Group>
-              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                      <Component id="lblTituloBando1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="723" max="32767" attributes="0"/>
-                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-                  <Component id="lblTitulo" min="-2" pref="42" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
+              <Group type="102" attributes="0">
+                  <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="btnRegresar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnConfiguracionExistentes" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="3" pref="3" max="-2" attributes="0"/>
+                  <Component id="lblTitulo" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                  <Component id="lblTituloBando1" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
                   <Component id="btnBando" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                  <Component id="cbxDefensas" min="-2" pref="30" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                  <Component id="cbxZombies" min="-2" pref="30" max="-2" attributes="0"/>
+                  <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="jpResultado" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
-                          <Component id="btnCrearComponente" min="-2" pref="55" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="lblNombreComponente" min="-2" pref="30" max="-2" attributes="0"/>
+                          <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                          <Component id="txfNombreComponente" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
+                                  <Component id="lblVida" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="txfVida" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
+                                  <Component id="lblAparicion" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="txfAparicion" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
+                                  <Component id="lblCoste" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="txfCoste" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
+                                  <Component id="lblDamage" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="txfDamage" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="5" pref="5" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
+                                  <Component id="lblAtackSpeed" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="txfAtackSpeed" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
+                                  <Component id="lblSpeed" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="txfSpeed" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
+                                  <Component id="lblRango" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="txfRango" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
+                                  <Component id="lblObjetivos" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="txfObjetivos" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="cbxDefensas" min="-2" pref="30" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="cbxZombies" min="-2" pref="30" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="lblSeleccionarNombre" min="-2" pref="30" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="txfNombreComponente" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblNameError" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="lblVida" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txfVida" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblVidaError" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="txfAparicion" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblAparicion" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblAparicionError" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="lblCoste" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txfCoste" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblCosteError" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="lblDamage" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txfDamage" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblDamageError" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="lblAtackSpeedError" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txfAtackSpeed" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblAtackSpeed" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="lblSpeed" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txfSpeed" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblSpeedError" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="lblRango" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txfRango" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblRangoError" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="txfObjetivos" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblObjetivosError" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblObjetivos" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="38" pref="38" max="-2" attributes="0"/>
+                          <Component id="lblNameError" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="21" pref="21" max="-2" attributes="0"/>
+                          <Component id="lblVidaError" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="9" pref="9" max="-2" attributes="0"/>
+                          <Component id="lblAparicionError" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="9" pref="9" max="-2" attributes="0"/>
+                          <Component id="lblCosteError" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="9" pref="9" max="-2" attributes="0"/>
+                          <Component id="lblDamageError" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="8" pref="8" max="-2" attributes="0"/>
+                          <Component id="lblAtackSpeedError" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="9" pref="9" max="-2" attributes="0"/>
+                          <Component id="lblSpeedError" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="9" pref="9" max="-2" attributes="0"/>
+                          <Component id="lblRangoError" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="9" pref="9" max="-2" attributes="0"/>
+                          <Component id="lblObjetivosError" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="154" max="32767" attributes="0"/>
-              </Group>
-              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>
-                      <Component id="lblTituloBando1" min="-2" pref="42" max="-2" attributes="0"/>
-                      <EmptySpace pref="678" max="32767" attributes="0"/>
+                  <EmptySpace pref="51" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="btnSeleccionarImagen" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="lblImagenInsertada" min="-2" pref="142" max="-2" attributes="0"/>
+                              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="btnCrearComponente" min="-2" pref="55" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="lblComponenteCreado" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Container class="javax.swing.JPanel" name="jpResultado">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="66" green="99" red="ff" type="rgb"/>
-            </Property>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
-                <EtchetBorder bevelType="0">
-                  <Color PropertyName="highlight" blue="0" green="99" red="99" type="rgb"/>
-                  <Color PropertyName="shadow" blue="33" green="0" red="33" type="rgb"/>
-                </EtchetBorder>
-              </Border>
-            </Property>
-          </Properties>
-
-          <Layout>
-            <DimensionLayout dim="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lblResultadosCaracteristicas" alignment="1" pref="281" max="32767" attributes="0"/>
-              </Group>
-            </DimensionLayout>
-            <DimensionLayout dim="1">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="lblResultadosCaracteristicas" min="-2" pref="155" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="219" max="32767" attributes="0"/>
-                  </Group>
-              </Group>
-            </DimensionLayout>
-          </Layout>
-          <SubComponents>
-            <Component class="javax.swing.JLabel" name="lblResultadosCaracteristicas">
-              <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="cc" green="cc" red="ff" type="rgb"/>
-                </Property>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                    <LineBorder thickness="2"/>
-                  </Border>
-                </Property>
-                <Property name="opaque" type="boolean" value="true"/>
-              </Properties>
-            </Component>
-          </SubComponents>
-        </Container>
         <Component class="javax.swing.JLabel" name="lblTitulo">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -362,7 +378,7 @@
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblSeleccionarNombre">
+        <Component class="javax.swing.JLabel" name="lblNombreComponente">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tempus Sans ITC" size="14" style="1"/>
@@ -668,6 +684,74 @@
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="lblSpeedError.setVisible(false);"/>
           </AuxValues>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnRegresar">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="33" green="0" red="ff" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="&gt;&gt;&gt;REGRESAR"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRegresarActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnConfiguracionExistentes">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="33" green="0" red="ff" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="&gt;&gt;&gt;Configuracion"/>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnConfiguracionExistentesActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnSeleccionarImagen">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="33" green="33" red="ff" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Seleccionar imagen"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSeleccionarImagenActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblImagenInsertada">
+          <Properties>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
+                <BevelBorder>
+                  <Color PropertyName="highlightInner" blue="33" green="99" red="0" type="rgb"/>
+                  <Color PropertyName="shadowInner" blue="0" green="66" red="0" type="rgb"/>
+                </BevelBorder>
+              </Border>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="VentanaConfiguracion_lblImagenInsertada"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JButton" name="jButton1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="jButton1"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblComponenteCreado">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tempus Sans ITC" size="14" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor" postCode="lblComponenteCreado.setVisible(false);">
+              <Color blue="0" green="33" red="99" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Componente creado!"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

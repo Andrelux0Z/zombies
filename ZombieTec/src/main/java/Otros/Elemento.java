@@ -1,5 +1,6 @@
 package Otros;
 
+import java.io.Serializable;
 import utils.Sprite;
 
 /*
@@ -11,7 +12,7 @@ import utils.Sprite;
  *
  * @author sando
  */
-public abstract class Elemento {
+public abstract class Elemento implements Serializable {
 
     private static int contadorID = 0;
     private int id;
@@ -28,6 +29,7 @@ public abstract class Elemento {
     private Historial reportes;
     private int ubicacion;
     protected Sprite sprite; // Sprite visual del zombie
+    private String rutaImagen;
     private Elemento tipo;
 
     public Elemento() {
@@ -204,5 +206,13 @@ public abstract class Elemento {
 
     public void setIsVolador(boolean isVolador) {
         this.isVolador = isVolador;
+    }
+
+    public String getRutaImagen() {
+        return rutaImagen;
+    }
+
+    public void setRutaImagen(String rutaImagen) {
+        this.rutaImagen = rutaImagen;
     }
 }
